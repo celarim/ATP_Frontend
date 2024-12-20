@@ -1,0 +1,169 @@
+<script setup>
+import { ref } from 'vue';
+
+const searchQuery = ref('');
+const alerts = [
+  {
+    date: 'December 12, 2019',
+    message: 'A new monthly report is ready to download!',
+    icon: 'fas fa-file-alt',
+    bg: 'bg-primary',
+  },
+  {
+    date: 'December 7, 2019',
+    message: '$290.29 has been deposited into your account!',
+    icon: 'fas fa-donate',
+    bg: 'bg-success',
+  },
+  {
+    date: 'December 2, 2019',
+    message: "Spending Alert: We've noticed unusually high spending for your account.",
+    icon: 'fas fa-exclamation-triangle',
+    bg: 'bg-warning',
+  },
+];
+</script>
+
+<template>
+  <nav class="navbar navbar-marketing navbar-expand-lg shadow bg-white navbar-light fixed-top">
+    <div class="nav-container">
+      <!-- Logo -->
+      <router-link to="/" class="navbar-brand text-black">
+        <img src="../images/badge1.webp" alt="Across The Pacific Logo" />
+        <span class="ms-2">Across The Pacific</span>
+      </router-link>
+
+      <!-- Toggle button for smaller screens -->
+      <button
+        type="button"
+        class="navbar-toggler"
+        data-bs-toggle="collapse"
+        data-bs-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <i class="fas fa-bars"></i>
+      </button>
+
+      <!-- Navigation Menu -->
+      <div id="navbarSupportedContent" class="collapse navbar-collapse">
+        <!-- Search Bar -->
+        <div class="search-nobottom my-navbar-search navbar-nav">
+          <form class="d-sm-inline-block form-inline vw-75 mw-100 navbar-search">
+            <div class="input-group">
+              <input
+                v-model="searchQuery"
+                type="text"
+                class="form-control bg-light border-0 small"
+                placeholder="검색어를 입력하세요"
+                aria-label="Search"
+              />
+              <button class="btn btn-primary" type="button">
+                <i class="fas fa-search fa-sm"></i>
+              </button>
+            </div>
+          </form>
+        </div>
+
+        <!-- Main Navigation -->
+        <ul class="navbar-nav me-auto">
+          <li class="nav-item dropdown">
+            <a
+              id="navbarDropdownThemes"
+              class="dropdown-toggle nav-link pointer"
+              href="#"
+              role="button"
+              data-bs-toggle="dropdown"
+              aria-expanded="false"
+            >
+              Portfolio <i class="fas fa-chevron-right"></i>
+            </a>
+            <ul class="dropdown-menu">
+              <li>
+                <router-link to="/themes/admin-dashboard" class="dropdown-item">
+                  포트폴리오 만들기
+                </router-link>
+              </li>
+              <li>
+                <router-link to="/themes" class="dropdown-item">
+                  모든 포트폴리오 보기
+                </router-link>
+              </li>
+              <li>
+                <router-link to="/themes/landing-pages" class="dropdown-item">
+                  명예의 전당
+                </router-link>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-item dropdown">
+            <a
+              id="navbarDropdownTemplates"
+              class="dropdown-toggle nav-link pointer"
+              href="#"
+              role="button"
+              data-bs-toggle="dropdown"
+              aria-expanded="false"
+            >
+              Stocks <i class="fas fa-chevron-right"></i>
+            </a>
+            <ul class="dropdown-menu">
+              <li>
+                <router-link to="/templates" class="dropdown-item">
+                  모든 주식 보기
+                </router-link>
+              </li>
+            </ul>
+          </li>
+        </ul>
+
+        <!-- Right-side items -->
+        <div class="navbar-nav align-items-lg-center nav-right">
+          <!-- Notifications -->
+          <li class="nav-item dropdown no-arrow mx-1">
+            <a
+              class="nav-link dropdown-toggle"
+              href="#"
+              id="alertsDropdown"
+              role="button"
+              data-bs-toggle="dropdown"
+              aria-expanded="false"
+            >
+              <i class="fas fa-bell fa-fw"></i>
+              <span class="badge badge-danger badge-counter">{{ alerts.length }}+</span>
+            </a>
+            <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in">
+              <h6 class="dropdown-header">Alerts Center</h6>
+              <template v-for="(alert, index) in alerts" :key="index">
+                <a class="dropdown-item d-flex align-items-center" href="#">
+                  <div class="me-3">
+                    <div :class="['icon-circle', alert.bg]">
+                      <i :class="alert.icon + ' text-white'"></i>
+                    </div>
+                  </div>
+                  <div>
+                    <div class="small text-gray-500">{{ alert.date }}</div>
+                    <span class="font-weight-bold">{{ alert.message }}</span>
+                  </div>
+                </a>
+              </template>
+              <a class="dropdown-item text-center small text-gray-500" href="#">
+                Show All Alerts
+              </a>
+            </div>
+          </li>
+
+          <!-- Login Button -->
+          <router-link to="/login" class="btn btn-primary mb-3 mb-lg-0">
+            Log In
+          </router-link>
+        </div>
+      </div>
+    </div>
+  </nav>
+</template>
+
+<style scoped>
+@import './navbar.css';
+</style>
