@@ -13,7 +13,7 @@ const props = defineProps({
 <template>
         <div class="inside">
             <a  class="portfolio" href="/portfolio">
-                <img  class="img" src="../images/sample.jpg">
+                <img class="img" :src="`/portfolio-images/${portfolio.img}`" alt="Portfolio Image" />
             </a>
             <div class="bottom">
                 <div class="bottom_left">
