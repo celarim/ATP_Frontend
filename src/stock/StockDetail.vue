@@ -1,7 +1,17 @@
 <script setup>
+import { onMounted, ref } from 'vue';
 import StockReply from './component/StockReply.vue';
+import { useStockDetailStore } from '../stores/useStockDetailStore';
+import { useRoute } from 'vue-router';
 
-
+const route = useRoute();
+const offset = ref(0);
+const stockReplyStore = useStockReplyStore();
+const stockDetailStore = useStockDetailStore();
+onMounted(async () => {
+    await stockDetailStore.getStockDetail()
+    await stockReplyStore.getStockReplyByCreatedAt(route.params.idx, offset);
+})
 </script>
 
 <template>
@@ -282,24 +292,25 @@ import StockReply from './component/StockReply.vue';
             <!-- Reply -->
             <div class="reply-section-title">댓글</div>
             <div class="reply">
+                <div class="row">
+                    <!-- Approach -->
+                    <div class="card shadow mb-4 card-row">
+                        <div class="card-header py-3">
+                            <h6 class="m-0 font-weight-bold text-primary">홍길동</h6>
+                            <p class="replycard-info">작성일자: 2024-12-12<br>
+                                최종 수정일자: 2024-12-12</p>
+                            <form method="POST">
+                                <input type="button" name="reply_likes" value="♥️" class="reply_likes" />
+                            </form>
 
-                <!-- Approach -->
-                <div class="card shadow mb-4 card-row">
-                    <div class="card-header py-3">
-                        <h6 class="m-0 font-weight-bold text-primary">홍길동</h6>
-                        <p class="replycard-info">작성일자: 2024-12-12<br>
-                            최종 수정일자: 2024-12-12</p>
-                        <form method="POST">
-                            <input type="button" name="reply_likes" value="♥️" class="reply_likes" />
-                        </form>
-
-                    </div>
-                    <div class="card-body">
-                        <p>SB Admin 2 makes extensive use of Bootstrap 4 utility classes in order to reduce
-                            CSS bloat and poor page performance. Custom CSS classes are used to create
-                            custom components and custom utility classes.</p>
-                        <p class="mb-0">Before working with this theme, you should become familiar with the
-                            Bootstrap framework, especially the utility classes.</p>
+                        </div>
+                        <div class="card-body">
+                            <p>SB Admin 2 makes extensive use of Bootstrap 4 utility classes in order to reduce
+                                CSS bloat and poor page performance. Custom CSS classes are used to create
+                                custom components and custom utility classes.</p>
+                            <p class="mb-0">Before working with this theme, you should become familiar with the
+                                Bootstrap framework, especially the utility classes.</p>
+                        </div>
                     </div>
                 </div>
             </div>
