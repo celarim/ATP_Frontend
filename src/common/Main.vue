@@ -1,7 +1,21 @@
 <script setup>
 import Portfolio from './portfolio.vue';
-import { portfolioList } from '../stores/portfolioList';
-const portfolioLists = portfolioList();
+import { usePortfolioListStore } from '../stores/usePortfolioListStore';
+const portfolioListStore = usePortfolioListStore();
+
+import { onMounted } from 'vue'
+import { useLoadingStore } from '../stores/useLoadingStore'
+
+const loadingStore = useLoadingStore()
+
+
+//포트폴리오 목록 동적으로 불러오기
+onMounted(async () => {
+    loadingStore.startLoading()
+    await portfolioListStore.getPortfolioList()
+    loadingStore.stopLoading()
+})
+
 </script>
 
 <template>
@@ -25,7 +39,7 @@ const portfolioLists = portfolioList();
         </div>
         <hr class="line">
         <div class="outline">
-            <Portfolio v-for = "port in portfolioLists.getPortfolios" :portfolio = "port"></Portfolio>
+            <Portfolio v-for = "port in portfolioListStore.portfolios" :portfolio = "port"></Portfolio>
         </div>
     </div>
 </template>
