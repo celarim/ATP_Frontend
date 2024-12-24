@@ -2,10 +2,9 @@ import { defineStore } from "pinia";
 
 export const useStockDetailStore = defineStore("stockDetail", {
     state: () => ({
-        name: "",
-        code: "",
-        market: "",
-        stock: {},
+        name: "테슬라",
+        code: "TSLA",
+        market: "NASDAQ",
     }),
     actions: {
         getStockDetail(stockId) {
