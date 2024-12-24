@@ -7,8 +7,7 @@ import stockList from './components/stock/stockList.vue'
 <template>
 
   <Nav></Nav>
-  <router-link to="/create_p">포트폴리오 생성</router-link>
-
+  
   <router-view></router-view>
 
 </template>
