@@ -1,6 +1,6 @@
 ## Commit 메시지 구조
 ```
-type : subject
+[type] subject
 
 body 
 
