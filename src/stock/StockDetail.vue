@@ -34,9 +34,9 @@ const draw = async () => {
     document.body.appendChild(script);
 }
 onMounted(async () => {
+    await stockDetailStore.getStockDetail();
+    await stockReplyStore.getStockReplyListByCreatedAt(route.params.idx, offset.value);
     await draw();
-    //await stockDetailStore.getStockDetail();
-    //await stockReplyStore.getStockReplyByCreatedAt(route.params.idx, offset);
 });
 
 </script>

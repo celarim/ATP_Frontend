@@ -1,5 +1,6 @@
 <script setup>
 import { defineProps } from 'vue';
+import { useStockReplyStore } from '../../stores/useStockReplyStore';
 
 const props = defineProps({
     reply: {
