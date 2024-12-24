@@ -1,7 +1,9 @@
 /* 전체 페이지 레이아웃 */
+
 .page-container {
     display: flex;
     height: 100vh;
+    margin-top: 5vmax;
 }
 
 /* 왼쪽 섹션 */

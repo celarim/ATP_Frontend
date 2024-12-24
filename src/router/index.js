@@ -1,8 +1,8 @@
 import { createWebHistory, createRouter } from 'vue-router'
 
 import Main from '../common/Main.vue'
-import CreateP from '../common/Navbar.vue'
 import StockDetail from '../stock/StockDetail.vue';
+import CreateP from '../portfolio/PortCreate.vue'
 
 const routes = [
   { path: '/', component: Main },
