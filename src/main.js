@@ -7,4 +7,9 @@ import { createPinia } from "pinia";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap';
 
-createApp(App).use(createPinia()).use(router).mount("#app");
+const app = createApp(App);
+const pinia = createPinia();
+
+app.use(router);
+app.use(pinia);
+app.mount("#app");

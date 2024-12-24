@@ -1,11 +1,24 @@
 <script setup>
-import {ref,reactive} from 'vue';
+import Portfolio from './portfolio.vue';
+import { usePortfolioListStore } from '../stores/usePortfolioListStore';
+const portfolioListStore = usePortfolioListStore();
 
-const portList = ref([1,2,3,4,5,6,7]);
+import { onMounted } from 'vue'
+import { useLoadingStore } from '../stores/useLoadingStore'
+
+const loadingStore = useLoadingStore()
+
+
+//포트폴리오 목록 동적으로 불러오기
+onMounted(async () => {
+    loadingStore.startLoading()
+    await portfolioListStore.getPortfolioList()
+    loadingStore.stopLoading()
+})
+
 </script>
 
 <template>
-    
     <div  class="container">
         <div class="p_type">
             <div class="p_category">Category</div>
@@ -26,25 +39,7 @@ const portList = ref([1,2,3,4,5,6,7]);
         </div>
         <hr class="line">
         <div class="outline">
-            <div v-for="port in portList" class="inside">
-                <a  class="portfolio" href="/portfolio">
-                    <img  class="img" src="../images/sample.jpg">
-                </a>
-                <div class="bottom">
-                    <div class="bottom_left">
-                        <div class="p_name">포트폴리오 이름</div>
-                        <div class="badge">
-                            <img src="../images/badge1.webp" alt="badge1" class="badge_img">
-                            <img src="../images/badge2.webp" alt="badge2" class="badge_img">
-                            <img src="../images/badge3.webp" alt="badge3" class="badge_img">
-                        </div>
-                    </div>
-                    <div class="bottom_right">
-                        <button class="p_likes" id="bookmarkBtn">♥️</button>
-                        <div class="likes_count">37%(수익률)</div>
-                    </div>
-                </div>                
-            </div>
+            <Portfolio v-for = "port in portfolioListStore.portfolios" :portfolio = "port"></Portfolio>
         </div>
     </div>
 </template>
