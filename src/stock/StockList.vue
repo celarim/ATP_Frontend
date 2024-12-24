@@ -1,7 +1,7 @@
 <script setup>
 import { defineProps } from 'vue';
 import stockListItem from './stockListItem.vue';
-import { useStockListStore } from '../stores/stockListStore.js';
+import { useStockListStore } from '../stores/useStockListStore.js';
 
 // TODO: API에 offset을 파라미터로 넘겨 페이지네이션을 구현할 것
 const props = defineProps({
