@@ -1,5 +1,10 @@
 <script setup>
 import {ref,reactive} from 'vue';
+const addCount = 1;
+const addBtn = () => {
+    addCount++;
+}
+
 </script>
 
 <template>
@@ -14,17 +19,18 @@ import {ref,reactive} from 'vue';
         <div class="right-section">
             <!-- Field Labels Row -->
             <div class="field-labels">
-                <div class="field-label stock-name-label">Stock</div>
-                <div class="field-label quantity-label">Quantity</div>
-                <div class="field-label date-label">Date</div>
-                <!-- price 추가 -->
-                <div class="field-label add-lab"></div> <!-- Add 버튼 자리 -->
+                <div class="stock-name-label">Stock</div>
+                <div class="quantity-label">Quantity</div>
+                <div class="amount-label">Amount</div>
+                <div class="date-label">Date</div>
+                <div class="count-label">Count</div>
+                <div class="add-label"></div> <!-- Add 버튼 자리 --> 
             </div>
 
             <!-- Field Inputs Row -->
             <div id="field-wrapper">
                 <!-- Initial Field Container -->
-                <div class="field-container">
+                <div class="field-container" v-for = "list in addCount" >
                     <div class="field-input stock-name-input">
                         <input type="text" placeholder="Enter stock name" />
                     </div>
@@ -33,13 +39,13 @@ import {ref,reactive} from 'vue';
                     </div>
                     <div class="field-input date-input">
                         <button class="date-button">
-                            <img src="./img/calendar.svg" alt="Calendar" />
+                            <img src="../images/calendar.svg" alt="Calendar" />
                         </button>
                         <input type="date" class="hidden-date-picker" />
                     </div>
                     <!-- Add Button -->
                     <div class="field-input add-field">
-                        <button class="add-field-button" id="add-field-button" type="button">+</button>
+                        <button @click="addBtn" class="add-field-button" id="add-field-button" type="button">+</button>
                     </div>
                 </div>
             </div>
