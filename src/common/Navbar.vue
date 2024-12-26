@@ -1,5 +1,5 @@
 <script setup>
-import { ref } from 'vue';
+import { onMounted, ref } from 'vue';
 import { useUserStore } from '../stores/useUserStore'
 const searchQuery = ref('');
 const alerts = [
@@ -24,8 +24,6 @@ const alerts = [
 ];
 
 const userStore = useUserStore();
-
-
 
 </script>
 
@@ -140,7 +138,7 @@ const userStore = useUserStore();
             <li class="nav-item dropdown no-arrow">
               <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown"
                 aria-haspopup="true" aria-expanded="false">
-                <img class="img-profile rounded-circle" src="../images/user.png">
+                <img class="img-profile rounded-circle" :src=userStore.image>
               </a>
               <!-- Dropdown - User Information -->
               <div class="dropdown-menu dropdown-menu-end shadow animated--grow-in" aria-labelledby="userDropdown">
