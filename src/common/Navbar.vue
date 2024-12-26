@@ -43,7 +43,7 @@ const alerts = [
         aria-expanded="false"
         aria-label="Toggle navigation"
       >
-        <i class="fas fa-bars"></i>
+        <font-awesome-icon :icon="['fas', 'bars']" />
       </button>
 
       <!-- Navigation Menu -->
@@ -60,7 +60,7 @@ const alerts = [
                 aria-label="Search"
               />
               <button class="btn btn-primary" type="button">
-                <i class="fas fa-search fa-sm"></i>
+                <font-awesome-icon :icon="['fas', 'magnifying-glass']" />
               </button>
             </div>
           </form>
@@ -77,7 +77,8 @@ const alerts = [
               data-bs-toggle="dropdown"
               aria-expanded="false"
             >
-              Portfolio <i class="fas fa-chevron-right"></i>
+              Portfolio 
+              <!-- <font-awesome-icon :icon="['fas', 'chevron-right']" /> -->
             </a>
             <ul class="dropdown-menu">
               <li>
@@ -106,11 +107,12 @@ const alerts = [
               data-bs-toggle="dropdown"
               aria-expanded="false"
             >
-              Stocks <i class="fas fa-chevron-right"></i>
+              Stocks 
+              <!-- <font-awesome-icon :icon="['fas', 'chevron-right']" /> -->
             </a>
             <ul class="dropdown-menu">
               <li>
-                <router-link to="/templates" class="dropdown-item">
+                <router-link to="/stockList" class="dropdown-item">
                   모든 주식 보기
                 </router-link>
               </li>
@@ -121,19 +123,19 @@ const alerts = [
         <!-- Right-side items -->
         <div class="navbar-nav align-items-lg-center nav-right">
           <!-- Notifications -->
-          <li class="nav-item dropdown no-arrow mx-1">
+          <li class="nav-item dropdown no-arrow mx-1" data-bs-toggle="dropdown">
             <a
               class="nav-link dropdown-toggle"
               href="#"
               id="alertsDropdown"
               role="button"
               data-bs-toggle="dropdown"
-              aria-expanded="false"
+              aria-expanded="true"
             >
-              <i class="fas fa-bell fa-fw"></i>
+            <font-awesome-icon :icon="['fas', 'bell']" />
               <span class="badge badge-danger badge-counter">{{ alerts.length }}+</span>
             </a>
-            <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in">
+            <div class="dropdown-list dropdown-menu dropdown-menu-end shadow animated--grow-in" >
               <h6 class="dropdown-header">Alerts Center</h6>
               <template v-for="(alert, index) in alerts" :key="index">
                 <a class="dropdown-item d-flex align-items-center" href="#">
