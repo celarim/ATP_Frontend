@@ -17,28 +17,28 @@ export const useStockListStore = defineStore('stockList', {
   },
   actions: {
     async getStockListItem(id) {
-      try {
-        return await axios.get(`https://95cee9b4-d7be-49a0-be81-b8e0cc900857.mock.pstmn.io/stock/item`, {params:{
+      try { // TODO: URL 바꾸기기
+        return await axios.get(`https://aaefca20-f361-4d2c-bc81-3db58a3ae355.mock.pstmn.io/stock/item`, {params:{
           id:id,
-        }}).json.result.slice(offset, offset+ 30);
+        }}).result.slice(offset, offset+ 30);
       } catch (e) {
         this.$state = {stockList:[]};
         return this.$state.stockList;
       }
     },
-    async getStockList(offset, requestType="") {
+    async getStockList(offset, text="", requestType="") {
       try {
-        if (this.$state.stockList.length === 0) { // TODO: URL 교체
-          const response = await axios.get(`https://95cee9b4-d7be-49a0-be81-b8e0cc900857.mock.pstmn.io/stock/list`, {params:{
-            offset:offset,
-            requestType:requestType
-          }})
-          this.$state.stockList = response.json.result.slice(this.$state.offset, this.$state.offset + 30);
-        }
-        // TODO: 조건에 따른 정렬 기능?
-
-        return this.$state.stockList.slice(offset, offset+ 30);
+         // TODO: 서버 URL 교체 필요
+        const response = await axios.get(`https://aaefca20-f361-4d2c-bc81-3db58a3ae355.mock.pstmn.io/stock/list`, {params:{
+          text: text,
+          offset:offset,
+          requestType:requestType
+        }})
+        // TODO: 조건에 따른 정렬 기능 추가가?
+        console.log(response.data);
+        return response.data.result.slice(this.$state.offset, this.$state.offset + 30);        
       } catch (e) {
+        console.log(e.message);
         this.$state = {stockList:[]};
         return this.$state.stockList;
       }
@@ -55,7 +55,7 @@ export const useStockListStore = defineStore('stockList', {
       }
       return this.$state.stockList;
     },
-    deleteStockList (id) { // Note: 보기 원하지 않는 종목 필터링에 재활용 가능?
+    deleteStockList (id) { // Note: set과 update처럼 쓸모가 없는지 애매함
        this.$state.stockList[id] = null;
        return this.$state.stockList;
     }
