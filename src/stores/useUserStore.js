@@ -3,7 +3,7 @@ import { defineStore } from "pinia";
 
 
 export const useUserStore = defineStore("user", {
-    state: () => ({ id, email }),
+    state: () => ({ isLogin: true, image: "", userId: 0 }),
     actions: {
         async login(email, password) {
             //axios
@@ -19,7 +19,26 @@ export const useUserStore = defineStore("user", {
                 console.log("hello");
             });
             if(response == null) return null;
-            return response.data.id;
+
+            this.isLogin = true;
+            this.image = response.image;
+            this.userId = response.userId;
+            return true;
+        },
+
+        async logout() {
+            const response = await axios.get("link", {
+                withCredentials: true,
+            }).catch((error) =>  {
+                //console.error(error);
+                console.log("hello");
+            });
+            if(response == null) return null;
+
+            this.isLogin = false;
+            this.image = '';
+            this.userId = null;
+            return true;
         },
         async getUserDetail(id) {
             //axios
@@ -31,5 +50,6 @@ export const useUserStore = defineStore("user", {
         async deleteUser() {
             //axios
         },
+
     }
 })

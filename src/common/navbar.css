@@ -299,9 +299,9 @@ button:not(:disabled), [type=button]:not(:disabled), [type=reset]:not(:disabled)
     .nav-right {
         padding-top: 1.75rem;
     }
-    .navbar-marketing {
-        padding-top: 0;
-        padding-bottom: 0;
+    .navbar-marketing, .nav-right {
+        padding-top: 0!important;
+        padding-bottom: 0!important;
     }
     .navbar-marketing .navbar-nav .nav-item {
         margin-right: 1rem;
