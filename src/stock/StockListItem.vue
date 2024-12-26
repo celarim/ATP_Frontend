@@ -1,45 +1,41 @@
 <script setup>
 import { defineProps } from 'vue';
-// import { useStockListStore } from '../../stores/stockListStore.js';
-
-// const stockListStore = useStockListStore();
 const props = defineProps({
   information: String,
 });
 
+const { id, name, code, market, price } = JSON.parse(props.information);
+
 </script>
 
 <template>
-  <div class="stockListBox">
-    <div class="stockListBox-inner-left">
+  <div class="stockListBox card card-row shadow" style="">
+    <div class="card-header" style="min-width:160px;">
       <div class="listbox-item">
-        {{ JSON.parse(information).name }}
+        <router-link :to="`/stock/${id}`">{{ name }}</router-link>
       </div>
       <div class="listbox-item small-info">
-        {{ JSON.parse(information).code }}
+        {{ code }}
+      </div>
+      <div class="listbox-item small-info">
+        {{ market }}
       </div>
     </div>
     <!-- TODO: 그래프? -->
-    <div class="stockListBox-inner-right bold-weight">
+    <div class="card-body bold-weight stockListBox-inner-right" style="max-width:120px;">
       <div class="listbox-item">
-        {{ JSON.parse(information).price }}
+        {{ price }}
       </div>
     </div>
   </div>
+
 </template>
 <style scoped>
 .stockListBox {
-  display: inline-flex;
-  text-align: center;
+  display: flex;
   flex-direction: row;
-  flex-wrap: nowrap;
   justify-content: space-between;
-  width: 84vw;
-  height: 240px;
-  background-color: #f9f9f9;
-  border: 1px solid blue;
-  border-radius: 0.4rem;
-  margin: 1rem;
+  margin-top: 1rem;
 }
 
 .stockListBox-inner-left {
@@ -52,7 +48,6 @@ const props = defineProps({
 }
 
 .stockListBox-inner-right {
-  width: 160px;
   color: #f9f9f9;
   padding-left: 1.2rem;
   background: linear-gradient(to left, #4e73df 0%, #4e73df 90%, #f9f9f9 100%);
@@ -71,4 +66,8 @@ const props = defineProps({
 .bold-weight {
   font-weight: bold;
 }
+</style>
+
+<style>
+@import '/src/common/sb-admin-2.min.css';
 </style>

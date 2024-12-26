@@ -1,37 +1,63 @@
 import { defineStore } from 'pinia';
-// import axios from 'axios';
+import axios from 'axios';
 
 export const useStockListStore = defineStore('stockList', {
-  state: () => ({stockList: [{name:"Tesla", code:"TSLA", price: "26000" }, {name:"Apple Inc.", code:"AAPL", price: "46000" }, {name:"Microsoft", code:"MSFT", price: "43200" }]}),
+  state: () => ({ 
+    offset: 0, 
+    requestType: "", 
+    stockList: [
+      {id:1, name:"Tesla", code:"TSLA", market:"nasdaq", price: "26000" }, 
+      {id:2, name:"Apple Inc.", code:"AAPL", market:"nasdaq",  price: "46000" },
+      {id:3, name:"Microsoft", code:"MSFT", market:"nasdaq",  price: "43200" }
+    ]
+  }),
   getters: {
-    stockListResult: (state) => state.stockList,
+    stockListResult: (state) => state.stockList.slice(state.offset, state.offset + 30),
+    stockListOffset: (state) => state.offset
   },
   actions: {
-    getStockListItem: (id) => {
-      /*
-      axios.get("https://95cee9b4-d7be-49a0-be81-b8e0cc900857.mock.pstmn.io/...", {params:{id:id}})
-        .then((result) => {
-          stockList.push(result.data);
-      });
-      */
-     return [];
+    async getStockListItem(id) {
+      try {
+        return await axios.get(`https://95cee9b4-d7be-49a0-be81-b8e0cc900857.mock.pstmn.io/stock/item`, {params:{
+          id:id,
+        }}).json.result.slice(offset, offset+ 30);
+      } catch (e) {
+        this.$state = {stockList:[]};
+        return this.$state.stockList;
+      }
     },
-    getStockList: (offset, tickercode) => {
-      /*
-      axios.get("https://95cee9b4-d7be-49a0-be81-b8e0cc900857.mock.pstmn.io/...", {params:{...}})
-        .then((result) => {
-          stockList.push(result.data);
-      });
-      */
-      return [];
+    async getStockList(offset, requestType="") {
+      try {
+        if (this.$state.stockList.length === 0) { // TODO: URL 교체
+          const response = await axios.get(`https://95cee9b4-d7be-49a0-be81-b8e0cc900857.mock.pstmn.io/stock/list`, {params:{
+            offset:offset,
+            requestType:requestType
+          }})
+          this.$state.stockList = response.json.result.slice(this.$state.offset, this.$state.offset + 30);
+        }
+        // TODO: 조건에 따른 정렬 기능?
+
+        return this.$state.stockList.slice(offset, offset+ 30);
+      } catch (e) {
+        this.$state = {stockList:[]};
+        return this.$state.stockList;
+      }
     },
-    deleteStockList: (id) => { // Note: 보기 원하지 않는 종목 필터링에 재활용 가능?
-       /*
-      axios.delete("https://95cee9b4-d7be-49a0-be81-b8e0cc900857.mock.pstmn.io/...", {params:{offset:offset}})
-        .then((result) => {
-          stockList.push(result.data);
-      });
-      */
+    canSeePrev(){
+      return this.$state.offset >= 30;
+    },
+    async getNextList() {
+      return await this.getStockList(this.$state.offset + 30, this.$state.requestType);
+    },
+    async getPrevList() {
+      if (this.$state.offset >= 30) {
+        return await this.getStockList(this.$state.offset -30, this.$state.requestType);
+      }
+      return this.$state.stockList;
+    },
+    deleteStockList (id) { // Note: 보기 원하지 않는 종목 필터링에 재활용 가능?
+       this.$state.stockList[id] = null;
+       return this.$state.stockList;
     }
   },
   

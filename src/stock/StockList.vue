@@ -2,6 +2,7 @@
 import { defineProps } from 'vue';
 import stockListItem from './stockListItem.vue';
 import { useStockListStore } from '../stores/useStockListStore.js';
+import LineChart from '../components/LineChart.vue';
 
 // TODO: API에 offset을 파라미터로 넘겨 페이지네이션을 구현할 것
 const props = defineProps({
@@ -25,6 +26,6 @@ const listResult = stockListStore.stockListResult.map((value) => JSON.stringify(
 </template>
 <style scoped>
 .container>h1 {
-  margin-top: 80px;
+  margin-top: 6rem;
 }
 </style>
