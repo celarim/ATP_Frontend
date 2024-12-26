@@ -3,11 +3,23 @@ import { defineStore } from "pinia";
 
 
 export const useUserStore = defineStore("user", {
-    state: () => ({ id, email }),
+    state: () => ({isLogin: false, userId:0, image:""}),
     actions: {
         async login(email, password) {
-            //axios
-
+            const response = await axios
+            .post("https://637b1d88-d99f-48ca-b187-81bb20e3ae05.mock.pstmn.io/auth/login", {
+                "email": email,
+                "password": password
+            })
+            .catch((error) => {
+                console.log("hi");
+                return null
+            })
+            console.log(response);
+            if(response === null) return false;
+            this.userId = response.data.userId;
+            this.image = response.data.image;
+            this.isLogin = true;
             return true;
         },
         async checkLogin() {
