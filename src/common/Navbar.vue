@@ -81,7 +81,7 @@ const alerts = [
             </a>
             <ul class="dropdown-menu">
               <li>
-                <router-link to="/create_p" class="dropdown-item">
+                <router-link to="/createport" class="dropdown-item">
                   포트폴리오 만들기
                 </router-link>
               </li>

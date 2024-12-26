@@ -1,16 +1,14 @@
 import { createWebHistory, createRouter } from 'vue-router'
 
 import Main from '../common/Main.vue'
-import CreateP from '../portfolio/PortCreate.vue'
-
-const routes = [
-  { path: '/', component: Main },
-  { path: '/create_p', component: CreateP}
-]
+import CreatePortfolio from '../portfolio/PortCreate.vue'
 
 const router = createRouter({
   history: createWebHistory(),
-  routes,
+  routes : [
+    { path: '/', component: Main },
+    { path: '/createport', component: CreatePortfolio}
+  ]
 });
 
 export default router;
