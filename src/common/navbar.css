@@ -204,6 +204,7 @@ a {
     align-items: center;
     line-height: 1;
     height: 2.2rem;
+    max-width: 4.5rem;
     font-size: .75rem;
     padding: 0 1rem;
     font-weight: 600;
