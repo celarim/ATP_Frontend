@@ -276,10 +276,10 @@ textarea {
     line-height: inherit;
 }
 @media (max-width:992px) {
-    sbpro-page-card {
+    .container {
       margin-top: 20vh;
     }
 }
-sbpro-page-card {
+.container {
     margin-top: 10vh;
   }
