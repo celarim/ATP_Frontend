@@ -61,5 +61,6 @@ export const useUserStore = defineStore("user", {
         async deleteUser() {
             //axios
         },
+
     }
 })
