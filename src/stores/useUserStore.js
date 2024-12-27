@@ -42,14 +42,14 @@ export const useUserStore = defineStore("user", {
         },
         async checkLogin() {
             //axios
-            const response = await axios.get("link", {
+            const response = await axios.get("/api/auth/check", {
                 withCredentials: true,
             }).catch((error) => {
                 //console.error(error);
                 console.log("hello");
             });
-            if (response == null) return null;
-            return response.data.id;
+            if (response == null) return false;
+            return true;
         },
         async getUserDetail(id) {
             //axios
