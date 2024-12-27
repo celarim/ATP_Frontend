@@ -353,6 +353,14 @@ ol, ul {
         padding-bottom: 0 !important
     }
 }
+@media(min-width: 992px) {
+ .topbar-divider {
+    width: 0;
+    border-right: 1px solid #e3e6f0;
+    height: calc(4.375rem - 2rem);
+    margin: auto 1rem;
+  }   
+}
 
 
 /* 드롭다운 메뉴 */

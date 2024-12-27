@@ -45,17 +45,7 @@ const userStore = useUserStore();
       <!-- Navigation Menu -->
       <div id="navbarSupportedContent" class="collapse navbar-collapse">
         <!-- Search Bar -->
-        <div class="search-nobottom my-navbar-search navbar-nav">
-          <form class="d-sm-inline-block form-inline vw-75 mw-100 navbar-search">
-            <div class="input-group">
-              <input v-model="searchQuery" type="text" class="form-control bg-light border-0 small"
-                placeholder="검색어를 입력하세요" aria-label="Search" />
-              <button class="btn btn-primary" type="button">
-                <font-awesome-icon :icon="['fas', 'magnifying-glass']" />
-              </button>
-            </div>
-          </form>
-        </div>
+        
 
         <!-- Main Navigation -->
         <ul class="navbar-nav me-auto">
@@ -98,7 +88,20 @@ const userStore = useUserStore();
             </ul>
           </li>
         </ul>
+        <div class="search-nobottom my-navbar-search navbar-nav">
+          <form class="d-sm-inline-block form-inline vw-75 mw-100 navbar-search">
+            <div class="input-group">
+              <input v-model="searchQuery" type="text" class="form-control bg-light border-0 small"
+                placeholder="검색어를 입력하세요" aria-label="Search" />
+              <button class="btn btn-primary" type="button">
+                <font-awesome-icon :icon="['fas', 'magnifying-glass']" />
+              </button>
+            </div>
+          </form>
+        </div>
 
+        
+        <div v-if="!userStore.isLogin"  class="topbar-divider d-none d-sm-block"></div>
         <!-- Right-side items -->
         <!-- Notifications -->
         <div v-if="!userStore.isLogin" class="navbar-nav align-items-lg-center nav-right">
@@ -134,12 +137,16 @@ const userStore = useUserStore();
               </a>
             </div>
           </li>
+          
+          <div class="topbar-divider d-none d-sm-block"></div>
           <div>
             <li class="nav-item dropdown no-arrow">
               <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown"
                 aria-haspopup="true" aria-expanded="false">
                 <img class="img-profile rounded-circle" :src=userStore.image>
               </a>
+
+              
               <!-- Dropdown - User Information -->
               <div class="dropdown-menu dropdown-menu-end shadow animated--grow-in" aria-labelledby="userDropdown">
                 <a class="dropdown-item" href="#">
@@ -155,7 +162,7 @@ const userStore = useUserStore();
                   Activity Log
                 </a>
                 <div class="dropdown-divider"></div>
-                <button class="dropdown-item" >
+                <button @click="userStore.logout()"class="dropdown-item">
                   <font-awesome-icon :icon="['fas', 'right-from-bracket']" />
                   Logout
                 </button>
