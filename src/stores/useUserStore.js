@@ -3,54 +3,53 @@ import { defineStore } from "pinia";
 
 
 export const useUserStore = defineStore("user", {
-    state: () => ({isLogin: false, userId:0, image:""}),
+    state: () => ({ isLogin: false, userId: 0, image: "" }),
+    persist: {
+        storage: sessionStorage,
+    },
     actions: {
         async login(email, password) {
             const response = await axios
-            .post("https://637b1d88-d99f-48ca-b187-81bb20e3ae05.mock.pstmn.io/auth/login", {
-                "email": email,
-                "password": password
-            })
-            .catch((error) => {
-                console.log("hi");
-                return null
-            })
+                .post("/api/auth/login", {
+                    "email": email,
+                    "password": password
+                },)
+                .catch((error) => {
+                    console.log("hi");
+                    return null
+                })
             console.log(response);
-            if(response === null) return false;
+            if (response === null) return false;
             this.userId = response.data.userId;
             this.image = response.data.image;
             this.isLogin = true;
+            return true;
+        },
+
+        async logout() {
+            const response = await axios
+                .get("/api/auth/logout",)
+                .catch((error) => {
+                    console.log("hi");
+                    return null
+                })
+            console.log(response);
+            if (response === null) return false;
+            this.userId = null;
+            this.image = null;
+            this.isLogin = false;
             return true;
         },
         async checkLogin() {
             //axios
             const response = await axios.get("link", {
                 withCredentials: true,
-            }).catch((error) =>  {
+            }).catch((error) => {
                 //console.error(error);
                 console.log("hello");
             });
-            if(response == null) return null;
-
-            this.isLogin = true;
-            this.image = response.image;
-            this.userId = response.userId;
-            return true;
-        },
-
-        async logout() {
-            const response = await axios.get("link", {
-                withCredentials: true,
-            }).catch((error) =>  {
-                //console.error(error);
-                console.log("hello");
-            });
-            if(response == null) return null;
-
-            this.isLogin = false;
-            this.image = '';
-            this.userId = null;
-            return true;
+            if (response == null) return null;
+            return response.data.id;
         },
         async getUserDetail(id) {
             //axios
