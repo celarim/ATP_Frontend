@@ -26,7 +26,7 @@ export const useStockListStore = defineStore('stockList', {
         return this.$state.stockList;
       }
     },
-    async getStockList(offset, text="", requestType="") {
+    async getStockList(offset=0, text="", requestType="") {
       try {
          // TODO: 서버 URL 교체 필요
         const response = await axios.get(`https://aaefca20-f361-4d2c-bc81-3db58a3ae355.mock.pstmn.io/stock/list`, {params:{

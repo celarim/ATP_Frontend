@@ -10,6 +10,9 @@ const props = defineProps({
   sectionAction: String,
   text: String,
 });
+// 어쩔 수 없이 삼항 연산자 사용
+const offset = ref(!props.offset ? 0 : props.offset);
+const text = ref(!props.text ? "" : props.text);
 
 const stockListStore = useStockListStore();
 let itemlist = reactive([]);
