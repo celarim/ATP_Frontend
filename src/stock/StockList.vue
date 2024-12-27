@@ -14,6 +14,9 @@ const props = defineProps({
 const offset = ref(!props.offset ? 0 : props.offset);
 const text = ref(!props.text ? "" : props.text);
 
+let canMoveRight = ref(false);
+let canMoveLeft = ref(false);
+
 const stockListStore = useStockListStore();
 let itemlist = reactive([]);
 // TODO: stocklistStore.getStockList 액션으로 교체
@@ -22,9 +25,32 @@ const response = async () => {
   for (let item of response) {
     itemlist.push(JSON.stringify(item));
   }
-  console.log(itemlist);
+  canMoveRight.value = itemlist.length >= 30; // 일단 30개가 되면 활성화는 시킴
+  canMoveLeft.value = offset.value > 0;
 };
 response();
+
+const movePrev = async () => {
+  itemlist = reactive([]);
+  const response = await stockListStore.getPrevList()
+  for (let item of response) {
+    itemlist.push(JSON.stringify(item));
+  }
+  console.log(itemlist);
+  canMoveRight.value = itemlist.length >= 30; // 일단 30개가 되면 활성화는 시킴
+  canMoveLeft.value = offset.value > 0;
+}
+
+const moveNext = async () => {
+  itemlist = reactive([]);
+  const response = await stockListStore.getNextList()
+  for (let item of response) {
+    itemlist.push(JSON.stringify(item));
+  }
+  console.log(itemlist);
+  canMoveRight.value = itemlist.length >= 30; // 일단 30개가 되면 활성화는 시킴
+  canMoveLeft.value = offset.value > 0;
+}
 
 </script>
 
@@ -34,10 +60,26 @@ response();
     <div v-for="item in itemlist">
       <stockListItem :information="item" />
     </div>
+    <span class="pagination">
+      <div v-if="canMoveRight" @click="movePrev">&lt;</div>
+      <div v-else class="inverted-color">&lt;</div>
+      <div>&nbsp; {{ Math.floor(offset / 30) }} &nbsp;</div>
+      <div v-if="canMoveLeft" @click="moveNext">&gt;</div>
+      <div v-else class="inverted-color">&gt;</div>
+    </span>
   </div>
 </template>
 <style scoped>
 .container>h1 {
   margin-top: 6rem;
+}
+
+.pagination {
+  text-align: center;
+  justify-self: center;
+}
+
+.inverted-color {
+  color: cornflowerblue;
 }
 </style>
