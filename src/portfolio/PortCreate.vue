@@ -1,18 +1,37 @@
 <script setup>
 import {ref,reactive, computed } from 'vue';
 import { RouterLink, RouterView } from 'vue-router';
-import { Doughnut } from 'vue-chartjs'; // Doughnut 차트를 임포트
+import { Doughnut } from 'vue-chartjs';
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
+import { usePortCreateStore } from '../stores/usePortCreateStore';
+import { useLoadingStore } from '../stores/useLoadingStore';
+import { onMounted } from 'vue'
+import { useStockListStore } from '../stores/useStockListStore';
 
+const portStatus = true; //포트폴리오 생성, 수정 구분
+
+const stockList = useStockListStore();
+const loadingStore = useLoadingStore();
+const portCreate = usePortCreateStore();
 const addCount = ref(1);
 const stockData = ref({
+    name:'포트폴리오',
     stocks:[{
         name:'',
         quantity : 0,
         price:0,
-        date:''
+        date:'',
+        isCh:false
     }]
 })
+//포트폴리오 목록 동적으로 불러오기
+if(!portStatus){
+    onMounted(async () => {
+    loadingStore.startLoading()
+    stockData = await portCreate.getPortfolio()
+    loadingStore.stopLoading()
+    })
+}
 
 const addBtn = () => {
     addCount.value++;
@@ -37,6 +56,7 @@ const stocks = ref([
     { "name": "Alphabet C", "k_name": "구글 C", "code": "GOOG" },
     { "name": "Microsoft", "k_name": "마이크로소프트", "code": "MSFT" }
 ]);
+
 const isListVisible = ref(false);
 const showList = (index) => {
     isListVisible.value = index;
@@ -64,10 +84,36 @@ const hideList = () => {
         isListVisible.value = false;
     }, 100);
 };
+const handleRemove = (index) => {
+    stockData.value.stocks[index].name = '';
+    isListVisible.value = false;
+};
+
+//생성한 포트폴리오 전송
+const createBtn=()=>{
+    const result = portCreate.setPortfolio(stockData.name, stockData.stocks);
+    console.log(result)
+}
+//수정한 포트폴리오 전송
+const updateBtn=()=>{
+    const result = portCreate.setPortfolio(stockData.name, stockData.stocks);
+    console.log(result)
+}
 
 //왼쪽영역
-// Chart.js 기능 등록
 ChartJS.register(ArcElement, Tooltip, Legend);
+
+const isEditing = ref(false); // 편집 모드 상태
+
+// 편집 모드 활성화
+const enableEditing = () => {
+    isEditing.value = true;
+};
+
+// 편집 모드 비활성화
+const disableEditing = () => {
+    isEditing.value = false;
+};
 
 // 랜덤 색상 생성
 function generateRandomColor() {
@@ -93,46 +139,37 @@ function generateUniqueColor() {
 
 // 차트 데이터
 const chartData = computed(() => {
-    // 1. 주식 데이터에서 이름을 기준으로 그룹화하여 합산
-    const groupedStocks = stockData.value.stocks.reduce((acc, stock) => {
-        // stock의 자산 계산 (quantity * price)
-        const stockValue = stock.quantity * stock.price;
+    // 1. 체크된 항목만 필터링
+    const filteredStocks = stockData.value.stocks.filter(stock => stock.isCh);
 
-        // 만약 주식 이름이 이미 존재하면 해당 항목에 자산 더하기
+    // 2. 주식 데이터를 그룹화 및 계산
+    const groupedStocks = filteredStocks.reduce((acc, stock) => {
+        const stockValue = stock.quantity * stock.price;
         const existingStock = acc.find(s => s.name === stock.name);
         if (existingStock) {
-            existingStock.asset += stockValue; // 자산 값 합산
+            existingStock.asset += stockValue;
         } else {
-            // 새로운 이름의 주식이 들어오면 새로운 항목 생성하여 배열에 추가
             acc.push({
                 name: stock.name,
-                asset: stockValue // 처음엔 자산 값으로만 설정
+                asset: stockValue,
             });
         }
         return acc;
     }, []);
 
-    // 2. 그룹화된 데이터를 기반으로 라벨과 데이터 준비
+    // 3. 차트 데이터 생성
     const labels = groupedStocks.map(stock => stock.name);
-    const data = groupedStocks.map(stock => stock.asset); // 자산 값으로 데이터 설정
-
-    // 3. 색상 배열을 stockData와 매칭하여 관리
-    const backgroundColor = labels.map((label, index) => {
-        // 기존 주식 항목에 대해 이미 색상이 할당되었으면 그 색상을 재사용
-        if (usedColors.value[index]) {
-            return usedColors.value[index];
-        } else {
-            // 새 항목에 대해서만 새로운 색상 할당
-            return generateUniqueColor();
-        }
-    });
+    const data = groupedStocks.map(stock => stock.asset);
+    const backgroundColor = labels.map((_, index) =>
+        usedColors.value[index] || generateUniqueColor()
+    );
 
     return {
         labels: labels.length > 0 ? labels : ['No Data'],
         datasets: [
             {
-                data: data.length > 0 ? data : [0], // 데이터가 없으면 기본값 설정
-                backgroundColor: backgroundColor, // 동적으로 생성된 색상 배열
+                data: data.length > 0 ? data : [0],
+                backgroundColor,
                 hoverBackgroundColor: backgroundColor,
             },
         ],
@@ -156,6 +193,11 @@ const chartOptions = ref({
     <div class="page-container">
         <!-- Left Section -->
         <div class="left-section">
+            <div class="donut_name">
+                <p v-if="!isEditing" @dblclick="enableEditing" class="editable-text" aria-placeholder="portfolio"> {{ stockData.name }} </p>
+                <input v-else type="text" v-model="stockData.name" @blur="disableEditing" 
+                    @keydown.enter="disableEditing" class="editable-input" />
+            </div>
             <div class="donut">
                 <Doughnut :data="chartData" :options="chartOptions" />
             </div>
@@ -179,13 +221,16 @@ const chartOptions = ref({
                 <!-- Initial Field Container -->
                 <div class="field-labels" v-for = "list, index in addCount" :key="index" >
                     <div class="stock_check">
-                        <input type="checkbox" />
+                        <input type="checkbox" v-model="stockData.stocks[index].isCh"/>
                     </div>
                     <div class="stock_name">
                         <div class="stock_list">
-                            <input type="text" placeholder="Enter stock name" v-model="stockData.stocks[index].name" @focus="showList(index)" @input="showList(index)" @blur="hideList" />
-                            <!-- 검색 결과 리스트를 출력, isListVisible이 true일 때만 보여줌 -->
-                            <ul v-if="isListVisible === index && filteredStocks[index].length > 0" class="stock-list">
+                            <input type="text" placeholder="Enter stock name" v-model="stockData.stocks[index].name" 
+                            @focus="showList(index)" @input="showList(index)" @blur="hideList" />
+                            <img :class="['xmark', stockData.stocks[index].name === '' ? 'xmarkhide' : 'xmarkshow']" src="../images/x.svg"
+                            @click="handleRemove(index)"/>
+                            <ul v-if="isListVisible === index   ">
+                                <li v-if="filteredStocks[index].length == 0">검색 결과가 없습니다</li>
                                 <li v-for="(stock, i) in filteredStocks[index]" :key="i" @click="selectStock(stock.name, index)">
                                     {{ stock.name }}
                                 </li>
@@ -207,7 +252,8 @@ const chartOptions = ref({
                 </div>
                 <div class="stock_sum">구매 금액 합계 : {{ sum }}</div>
                 <div class="field-input">
-                    <button class="add-field-button createBtn">Create</button>
+                    <button v-if="portStatus" @click="createBtn" class="add-field-button createBtn">Create</button>
+                    <button v-else @click="updateBtn" class="add-field-button createBtn">Update</button>
                     <button @click="addBtn" class="add-field-button addBtn">+</button>
                 </div>
                 <RouterView></RouterView>

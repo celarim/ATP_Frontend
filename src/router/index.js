@@ -7,7 +7,7 @@ const router = createRouter({
   history: createWebHistory(),
   routes : [
     { path: '/', component: Main },
-    { path: '/createport', component: CreatePortfolio}
+    { path: '/editport', component: CreatePortfolio}
   ]
 });
 
