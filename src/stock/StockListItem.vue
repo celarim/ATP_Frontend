@@ -1,49 +1,59 @@
 <script setup>
-import { defineProps } from 'vue';
-// import { useStockListStore } from '../../stores/stockListStore.js';
-
-// const stockListStore = useStockListStore();
+import { defineProps, ref } from 'vue';
 const props = defineProps({
   information: String,
 });
+let id = ref(0);
+let code = ref("d");
+let name = ref("d");
+let market = ref("d");
+let price = ref("d");
+
+const response = JSON.parse(props.information);
+id.value = response.id;
+code.value = response.code;
+name.value = response.name.replace(' Common Stock', "");
+market.value = response.market;
+price.value = response.price;
+
+const scrollToTop = () => {
+  window.scrollTo(0, 0);
+}
 
 </script>
 
 <template>
-  <div class="stockListBox">
-    <div class="stockListBox-inner-left">
+  <div class="stockListBox card card-row shadow" style="">
+    <div class="card-header" style="min-width:200px;max-width: 200px;">
       <div class="listbox-item">
-        {{ JSON.parse(information).name }}
+        <router-link :to="`/stock/${id}`" @click="scrollToTop">{{ name }}</router-link>
       </div>
       <div class="listbox-item small-info">
-        {{ JSON.parse(information).code }}
+        {{ code }}
+      </div>
+      <div class="listbox-item small-info">
+        {{ market }}
       </div>
     </div>
     <!-- TODO: 그래프? -->
-    <div class="stockListBox-inner-right bold-weight">
+    <div class="card-body bold-weight stockListBox-inner-right" style="max-width:160px;">
       <div class="listbox-item">
-        {{ JSON.parse(information).price }}
+        최근 가격:<br>
+        {{ price }}
       </div>
     </div>
   </div>
+
 </template>
 <style scoped>
 .stockListBox {
-  display: inline-flex;
-  text-align: center;
+  display: flex;
   flex-direction: row;
-  flex-wrap: nowrap;
   justify-content: space-between;
-  width: 84vw;
-  height: 240px;
-  background-color: #f9f9f9;
-  border: 1px solid blue;
-  border-radius: 0.4rem;
-  margin: 1rem;
+  margin-top: 1rem;
 }
 
 .stockListBox-inner-left {
-  width: 160px;
   color: #f9f9f9;
   padding-right: 1.2rem;
   background: linear-gradient(to right, #4e73df 0%, #4e73df 90%, #f9f9f9 100%);
@@ -52,7 +62,6 @@ const props = defineProps({
 }
 
 .stockListBox-inner-right {
-  width: 160px;
   color: #f9f9f9;
   padding-left: 1.2rem;
   background: linear-gradient(to left, #4e73df 0%, #4e73df 90%, #f9f9f9 100%);
@@ -61,7 +70,7 @@ const props = defineProps({
 }
 
 .listbox-item {
-  margin: 2rem 1rem
+  margin: 1rem 1rem
 }
 
 .small-info {
@@ -71,4 +80,8 @@ const props = defineProps({
 .bold-weight {
   font-weight: bold;
 }
+</style>
+
+<style>
+@import '/src/common/sb-admin-2.min.css';
 </style>

@@ -1,37 +1,64 @@
 import { defineStore } from 'pinia';
-// import axios from 'axios';
+import axios from 'axios';
 
 export const useStockListStore = defineStore('stockList', {
-  state: () => ({stockList: [{name:"Tesla", code:"TSLA", price: "26000" }, {name:"Apple Inc.", code:"AAPL", price: "46000" }, {name:"Microsoft", code:"MSFT", price: "43200" }]}),
+  state: () => ({ 
+    offset: 0, 
+    requestType: "", 
+    stockList: [
+      {id:1, name:"Tesla", code:"TSLA", market:"nasdaq", price: "26000", likes: 40 }, 
+      {id:2, name:"Apple Inc.", code:"AAPL", market:"nasdaq",  price: "46000", likes: 16},
+      {id:3, name:"Microsoft", code:"MSFT", market:"nasdaq",  price: "43200", likes: 4 }
+    ],
+  }),
   getters: {
-    stockListResult: (state) => state.stockList,
+    stockListResult: (state) => state.stockList.slice(state.offset, state.offset + 30),
+    stockListOffset: (state) => state.offset
   },
   actions: {
-    getStockListItem: (id) => {
-      /*
-      axios.get("https://95cee9b4-d7be-49a0-be81-b8e0cc900857.mock.pstmn.io/...", {params:{id:id}})
-        .then((result) => {
-          stockList.push(result.data);
-      });
-      */
-     return [];
+    async getStockListItem(id) {
+      try { // TODO: 서버 URL로 바꾸기
+        return await axios.get(`https://aaefca20-f361-4d2c-bc81-3db58a3ae355.mock.pstmn.io/stock/item`, {params:{
+          id:id,
+        }}).result.slice(offset, offset+ 30);
+      } catch (e) {
+        this.stockList = [];
+        return this.stockList;
+      }
     },
-    getStockList: (offset, tickercode) => {
-      /*
-      axios.get("https://95cee9b4-d7be-49a0-be81-b8e0cc900857.mock.pstmn.io/...", {params:{...}})
-        .then((result) => {
-          stockList.push(result.data);
-      });
-      */
-      return [];
+    async getStockList(offset=0, text="", requestType="") {
+      try {
+         // TODO: 서버 URL로 바꾸기
+        const response = await axios.get(`https://aaefca20-f361-4d2c-bc81-3db58a3ae355.mock.pstmn.io/stock/list`, {params:{
+          text: text,
+          offset:offset,
+          requestType:requestType
+        }})
+        console.log(response.data);
+        // TODO: 조건에 따른 정렬 기능 추가?
+        response.data.result.sort((a,b) => b.likes - a.likes);
+
+        return response.data.result.slice(this.offset, this.offset + 30);        
+      } catch (e) {
+        // console.log(e.message);
+        this.stockList = [];
+        return this.stockList;
+      }
     },
-    deleteStockList: (id) => { // Note: 보기 원하지 않는 종목 필터링에 재활용 가능?
-       /*
-      axios.delete("https://95cee9b4-d7be-49a0-be81-b8e0cc900857.mock.pstmn.io/...", {params:{offset:offset}})
-        .then((result) => {
-          stockList.push(result.data);
-      });
-      */
+    async getNextList() {
+      this.offset = this.offset + 30;
+      return await this.getStockList(this.offset, this.requestType);
+    },
+    async getPrevList() {
+      if (this.offset >= 30) {
+        this.offset = this.offset - 30;
+        return await this.getStockList(this.offset, this.requestType);
+      }
+      return this.$state.stockList;
+    },
+    deleteStockList (id) { // Note: set과 update처럼 쓸모가 없는지 애매함
+       this.$state.stockList[id] = null;
+       return this.$state.stockList;
     }
   },
   
