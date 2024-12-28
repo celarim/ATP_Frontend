@@ -1,7 +1,5 @@
 <script setup>
-import router from './router';
 import Nav from './common/Navbar.vue'
-
 </script>
 
 <template>
