@@ -1,7 +1,7 @@
 <script setup>
-import { defineProps, ref, reactive } from 'vue';
-import stockListItem from './stockListItem.vue';
-import { useStockListStore } from '../stores/useStockListStore.js';
+import { defineProps, ref, reactive } from "vue";
+import stockListItem from "./component/StockListItem.vue";
+import { useStockListStore } from "../stores/useStockListStore.js";
 // import LineChart from '../components/LineChart.vue';
 
 // TODO: API에 offset을 파라미터로 넘겨 페이지네이션을 구현할 것
@@ -32,26 +32,25 @@ response();
 
 const movePrev = async () => {
   itemlist = reactive([]);
-  const response = await stockListStore.getPrevList()
+  const response = await stockListStore.getPrevList();
   for (let item of response) {
     itemlist.push(JSON.stringify(item));
   }
   console.log(itemlist);
   canMoveRight.value = itemlist.length >= 30; // 일단 30개가 되면 활성화는 시킴
   canMoveLeft.value = offset.value > 0;
-}
+};
 
 const moveNext = async () => {
   itemlist = reactive([]);
-  const response = await stockListStore.getNextList()
+  const response = await stockListStore.getNextList();
   for (let item of response) {
     itemlist.push(JSON.stringify(item));
   }
   console.log(itemlist);
   canMoveRight.value = itemlist.length >= 30; // 일단 30개가 되면 활성화는 시킴
   canMoveLeft.value = offset.value > 0;
-}
-
+};
 </script>
 
 <template>
@@ -70,7 +69,7 @@ const moveNext = async () => {
   </div>
 </template>
 <style scoped>
-.container>h1 {
+.container > h1 {
   margin-top: 6rem;
 }
 
