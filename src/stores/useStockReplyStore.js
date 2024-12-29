@@ -10,15 +10,15 @@ export const useStockReplyStore = defineStore("stockReply", {
             .get("https://637b1d88-d99f-48ca-b187-81bb20e3ae05.mock.pstmn.io/stockreply"+"?stockId="+stockId+"&offset="+offset)
             this.replies = response.data.replies;
         },
-        async setStockReply(userId, stockId, content) {
+        async setStockReply(stockId, content) {
             //axios
             const response = await axios
                 .post("link",
                     {
-                        "userId": userId,
                         "stockId": stockId,
                         "content": content,
-                    }
+                    },
+                    { withCredentials: true }
                 )
                 .catch((error)=> {
                     console.error(error);
@@ -31,7 +31,9 @@ export const useStockReplyStore = defineStore("stockReply", {
                     {
                         "replyId": replyId,
                         "content": content
-                    })  
+                    },
+                    { withCredentials: true }
+                )  
                 .catch((error)=> {
                     console.error(error);
                 });
@@ -43,7 +45,30 @@ export const useStockReplyStore = defineStore("stockReply", {
                 .delete("link",
                     {
                         "replyId": replyId
-                    }
+                    },
+                    { withCredentials: true }
+                )
+                .catch((error)=> {
+                    console.error(error);
+                })
+            return response.data;
+        },
+        async setReplyLikes(replyId) {
+            const response = await axios
+                .post("api/stockreplylikes",
+                    { "replyId": replyId },
+                    {withCredentials: true}
+                )
+                .catch((error)=> {
+                    console.error(error);
+                })
+            return response.data;
+        },        
+        async deleteReplyLikes(replyId) {
+            const response = await axios
+                .delete("api/stockreplylikes",
+                    { "replyId": replyId },
+                    {withCredentials: true}
                 )
                 .catch((error)=> {
                     console.error(error);

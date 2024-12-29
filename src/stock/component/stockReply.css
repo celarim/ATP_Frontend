@@ -1,0 +1,15 @@
+.like-btn {
+    color: red;
+    border: none;
+    padding: 0;
+    background-color:aliceblue;
+}
+
+.like-icon {
+    height: 1.5rem;
+
+}
+
+.like-icon:hover {
+    color: #aa0000;
+}
