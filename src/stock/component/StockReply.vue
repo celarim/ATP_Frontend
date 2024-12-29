@@ -1,6 +1,8 @@
 <script setup>
-import { defineProps } from 'vue';
+import { defineProps, ref } from 'vue';
+import { useUserStore } from '../../stores/useUserStore'
 import { useStockReplyStore } from '../../stores/useStockReplyStore';
+import { useRouter } from 'vue-router';
 
 const props = defineProps({
     reply: {
@@ -8,24 +10,59 @@ const props = defineProps({
         required: true
     }
 })
+const router = useRouter();
+const stockReplyStore = useStockReplyStore();
+const userStore = useUserStore();
+const isUpdate = ref(false);
+const changeUpdate = () => {
+    isUpdate.value = !isUpdate.value;
+}
+const updateReply = async (replyId, content) => {
+    await stockReplyStore.updateStockReply(replyId, content);
+    router.go(0);
+}
+
+const deleteReply = async (replyId) => {
+    await stockReplyStore.deleteStockReply(replyId);
+    router.go(0);
+}
 </script>
 
 <template>
     <div class="card shadow mb-4 card-row">
         <div class="card-header py-3">
             <h6 class="m-0 font-weight-bold text-primary">{{ reply.userName }}</h6>
-            <p class="replycard-info">작성일자: {{ reply.createdAt }} <br>
-                최종 수정일자:  {{ reply.updatedAt }} </p>
+            <p class="replycard-info">
+                작성일자: {{ reply.createdAt }} <br>
+                최종 수정일자: {{ reply.updatedAt }} </p>
             <div style="display: flex;">
-                <form method="POST">
-                    <input type="button" name="reply_likes" value="♥️" class="reply_likes" />
-                </form>
-                <p style="margin-left: 5px;">{{ reply.likesCount }}</p>
+                <div style="display: flex;" class="me-auto">
+                    <form method="POST">
+                        <input type="button" name="reply_likes" value="♥️" class="reply_likes" />
+                    </form>
+                    <p style="margin-left: 5px;">{{ reply.likesCount }}</p>
+                </div>
+                <div v-if="userStore.userId === reply.userId" class="align-items-lg-center">
+                    <input v-if="!isUpdate" @click="changeUpdate" type="button" name="수정" value="수정" />
+                    <input v-else @click="updateReply(reply.replyId, reply.content)" type="button" name="수정완료" value="수정완료">
+                    <input v-if="!isUpdate" @click="deleteReply(reply.replyId)" type="button" name="삭제" value="삭제" />
+                    <input v-else @click="changeUpdate" type="button" name="취소" value="취소">
+                </div>
             </div>
 
         </div>
-        <div class="card-body">
+        <div v-if="!isUpdate" class="card-body">
             {{ reply.content }}
+        </div>
+        <div v-else class="card-body">
+            <div role="textbox" aria-multiline="true" class="_editor-expanded_ylcfx_13 border overflow-scroll" spellcheck="true"
+                data-slate-editor="true" data-slate-node="value" contenteditable="true" zindex="-1"
+                style="background-color: white; position: relative; white-space: pre-wrap; height: 7em;">
+                <div data-slate-node="element"><span data-slate-node="text">
+                     {{ reply.content }} 
+                    </span>
+                </div>
+            </div>
         </div>
     </div>
 </template>
