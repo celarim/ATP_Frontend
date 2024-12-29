@@ -1,4 +1,5 @@
 <script>
+// 서버가 예외를 던진게 클라이언트로 전달되는 경우 이 모듈을 표시
 export default {
   name: "Error50X",
 };

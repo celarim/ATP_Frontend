@@ -19,7 +19,8 @@ let canMoveLeft = ref(false);
 
 const stockListStore = useStockListStore();
 let itemlist = reactive([]);
-// TODO: stocklistStore.getStockList 액션으로 교체
+// 볼 때 목록 불러오는 API
+// TODO: stocklistStore.getStockList 액션으로 교체하여 페이지네이션 구현을 여기로 이전
 const response = async () => {
   const response = await stockListStore.getStockList(offset, text);
   for (let item of response) {
@@ -29,7 +30,8 @@ const response = async () => {
   canMoveLeft.value = offset.value > 0;
 };
 response();
-
+// 이전 30개로 페이지네이션
+// TODO: 이 코드를 수정하여 작동하게 만들 것
 const movePrev = async () => {
   itemlist = reactive([]);
   const response = await stockListStore.getPrevList();
@@ -40,7 +42,8 @@ const movePrev = async () => {
   canMoveRight.value = itemlist.length >= 30; // 일단 30개가 되면 활성화는 시킴
   canMoveLeft.value = offset.value > 0;
 };
-
+// 다음 30개로 페이지네이션
+// TODO: 이 코드를 수정하여 작동하게 만들 것
 const moveNext = async () => {
   itemlist = reactive([]);
   const response = await stockListStore.getNextList();

@@ -1,4 +1,5 @@
 <script>
+// 링크를 무시하고 URL로 접근하면 안 되는 모듈에 접근하려고 한 경우 대신 송출
 export default {
   name: "Error403",
 };

@@ -1,7 +1,7 @@
 <script setup>
 import { defineProps, ref } from "vue";
 const props = defineProps({
-  information: String,
+  information: String, // 종목 칸을 채우는 객체형 정보
 });
 let id = ref(0);
 let code = ref("d");
@@ -11,6 +11,7 @@ let price = ref("d");
 let likes = ref(0);
 let doILikeThis = ref(false);
 
+// information으로부터 정보 추출해서 대입
 const response = JSON.parse(props.information);
 id.value = response.id;
 code.value = response.code;
@@ -20,6 +21,7 @@ price.value = response.price;
 likes.value = response.likes;
 
 const scrollToTop = () => {
+  // 이게 있어야 라우팅 후 맨 위로 자동 스크롤 됨
   window.scrollTo(0, 0);
 };
 </script>

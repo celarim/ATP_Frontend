@@ -1,4 +1,5 @@
 <script>
+// 아직 만들지 않은 URL은 이걸 기본값으로 두는 것을 추천함
 export default {
   name: "Error404",
 };
