@@ -4,7 +4,7 @@ import { defineProps } from 'vue';
 const props = defineProps({
     portfolio:{
         type:Object,
-        required: true
+        required: true,
     }
 });
 

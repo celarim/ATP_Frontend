@@ -3,62 +3,58 @@ import axios from 'axios';
 
 export const usePortCreateStore = defineStore('portcreate', {
     state: () => ({
-        name:'',
+        name:"",
+        username:"",
         stocks: [], // 포트폴리오에 입력한 주식 데이터
         isLoading: false, // API 요청 상태플래그
         error: null,
     }),
 
-    //포트폴리오 생성
     actions: {
-        async setPortfolio(name, stocks) {
-            this.isLoading = true; // 로딩 상태 활성화
-            this.error = null; // 이전 에러 초기화
-
+        //포트폴리오 생성
+        async createPortfolio(payload) {
             try {
-                const response = await axios.post("https://58d87cff-fea4-4487-91b2-227591311b7e.mock.pstmn.io/api", stocks);
-                this.stocks = response.data; // API에서 반환된 데이터를 상태에 저장
-                return response.data; // 필요한 경우 호출한 곳에서 결과 사용
+                const response = await axios.post('/api/createPortfolio', payload);
+                console.log('Portfolio created:', response.data);
+                this.portfolios.push(response.data); // 새로 생성된 포트폴리오 저장
             } catch (error) {
-                this.error = error.message || 'Failed to set portfolio';
-                console.error("API Error:", error);
-            } finally {
-                this.isLoading = false; // 로딩 상태 비활성화
+                console.error('Error creating portfolio:', error);
+                throw error;
+            }
+        },
+        
+        //PortCreate.vue에서 포트폴리오 업데이트를 위한 포트폴리오 정보 불러오기
+        async getPortfolio(username) {
+            try {
+                const response = await axios.get("/sample/createdportfolioList.json");
+                // username과 일치하는 유저 검색
+                const user = response.data.find(user => user.username === username);
+                if (user) { // 일치하는 유저 정보 세팅
+                    this.name = user.name;
+                    this.username = user.username;
+                    this.stocks = user.stocks;
+                } else { // 유저가 없는 경우
+                    console.error(`User with username "${username}" not found.`);
+                }
+            } catch (error) {
+                console.error("Error fetching portfolio:", error);
+            }
+        },
+
+        //포트폴리오 수정
+        async updatePortfolio(payload) {
+            try {
+                const response = await axios.post('/api/updatePortfolio', payload);
+                console.log('Portfolio updated:', response.data);
+                // 수정된 데이터를 state에 반영
+                const index = this.portfolios.findIndex(port => port.username === payload.username);
+                if (index !== -1) {
+                    this.portfolios[index] = response.data;
+                }
+            } catch (error) {
+                console.error('Error updating portfolio:', error);
+                throw error;
             }
         },
     },
-
-    //포트폴리오 불러오기
-    actions: {
-        async getPortfolio() {
-            const response = await axios.get(
-                "https://58d87cff-fea4-4487-91b2-227591311b7e.mock.pstmn.io/api"
-            );
-            this.name = response.data.name;
-            this.stocks = response.data.stocks;
-            return {
-                name: this.name,
-                stocks: this.stocks,
-            };
-        }
-    },
-    
-    //포트폴리오 갱신
-    actions: {
-        async updatePortfolio(name, stocks) {
-            this.isLoading = true; // 로딩 상태 활성화
-            this.error = null; // 이전 에러 초기화
-
-            try {
-                const response = await axios.patch("https://58d87cff-fea4-4487-91b2-227591311b7e.mock.pstmn.io/api", stocks);
-                this.stocks = response.data; // API에서 반환된 데이터를 상태에 저장
-                return response.data; // 필요한 경우 호출한 곳에서 결과 사용
-            } catch (error) {
-                this.error = error.message || 'Failed to set portfolio';
-                console.error("API Error:", error);
-            } finally {
-                this.isLoading = false; // 로딩 상태 비활성화
-            }
-        },
-    },
-});
+})

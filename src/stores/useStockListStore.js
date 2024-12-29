@@ -9,7 +9,8 @@ export const useStockListStore = defineStore('stockList', {
         {id:1, name:"Tesla", code:"TSLA", market:"nasdaq", price: "26000" }, 
         {id:2, name:"Apple Inc.", code:"AAPL", market:"nasdaq",  price: "46000" },
         {id:3, name:"Microsoft", code:"MSFT", market:"nasdaq",  price: "43200" }
-        ]
+        ],
+        stocks: []
     }),
     getters: {
         stockListResult: (state) => state.stockList.slice(state.offset, state.offset + 30),
@@ -34,7 +35,7 @@ export const useStockListStore = defineStore('stockList', {
             offset:offset,
             requestType:requestType
             }})
-            // TODO: 조건에 따른 정렬 기능 추가가?
+            // TODO: 조건에 따른 정렬 기능 추가?
             console.log(response.data);
             return response.data.result.slice(this.$state.offset, this.$state.offset + 30);        
         } catch (e) {
@@ -55,10 +56,18 @@ export const useStockListStore = defineStore('stockList', {
         }
         return this.$state.stockList;
         },
+        
         deleteStockList (id) { // Note: set과 update처럼 쓸모가 없는지 애매함
         this.$state.stockList[id] = null;
         return this.$state.stockList;
+        },
+
+        //NOTE: portCreate.vue를 위한 임시 주식 데이터
+        async getStocks(){
+            const response = await axios.get("/sample/stockList.json");
+            this.stocks = response.data;
         }
+        
     },
     
 })
