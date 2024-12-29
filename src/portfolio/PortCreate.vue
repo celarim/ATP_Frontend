@@ -168,7 +168,7 @@ const sum = computed(() => {
     );
 });
 
-// TODO : 새로 삽입한 주식 데이터 전송
+//새로 삽입한 주식 데이터 전송
 const createBtn = async () => {
     loadingStore.startLoading();
     try {
@@ -185,7 +185,7 @@ const createBtn = async () => {
     }
 };
 
-// TODO : 수정한 포트폴리오 전송
+//수정한 포트폴리오 전송
 const updateBtn = async () => {
     loadingStore.startLoading();
     try {

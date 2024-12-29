@@ -7,7 +7,8 @@
   margin-top: 100px;
   padding: 0 calc(var(--bs-gutter-x) * 0.5);
   box-sizing: border-box;
-  height: 100vh;
+  height: auto;
+  margin-bottom: 20px;
 }
 
 @media (max-width:992px) {
@@ -79,145 +80,220 @@
     border-color: #4f74df;
 }
   
-  .btn_active:hover {
-    background-color: #f2f2f2;
-  }
-  
-  .line{
-    margin-bottom: 1rem !important;
-    margin-top: 1rem !important;
-  }
-  hr{
-    margin: 1rem 0;
-    color: inherit;
-    border: 0;
-    border-top: 1px solid;
-    opacity: .25;
-  }
-  
+.btn_active:hover {
+  background-color: #f2f2f2;
+}
+
+.line{
+  margin-bottom: 1rem !important;
+  margin-top: 1rem !important;
+}
+hr{
+  margin: 1rem 0;
+  color: inherit;
+  border: 0;
+  border-top: 1px solid;
+  opacity: .25;
+}
+
+.outline {
+  display: grid; /* Grid 레이아웃 */
+  gap: 1.5rem; /* 이미지 간 간격 */
+  grid-template-columns: repeat(3, 1fr); /* 기본 3개 */
+  box-sizing: border-box;
+  transition: all 0.3s ease; /* 부드러운 레이아웃 전환 */
+}
+
+@media (min-width: 1400px) {
   .outline {
-    display: grid; /* Grid 레이아웃 */
-    gap: 1.5rem; /* 이미지 간 간격 */
-    grid-template-columns: repeat(3, 1fr); /* 기본 3개 */
-    box-sizing: border-box;
-    transition: all 0.3s ease; /* 부드러운 레이아웃 전환 */
+      grid-template-columns: repeat(4, 1fr);
   }
-  
-  @media (min-width: 1400px) {
-    .outline {
-        grid-template-columns: repeat(4, 1fr);
-    }
+}
+
+@media (min-width: 1800px) {
+  .outline {
+      grid-template-columns: repeat(5, 1fr);
   }
-  
-  @media (min-width: 1800px) {
-    .outline {
-        grid-template-columns: repeat(5, 1fr);
-    }
+}
+@media (max-width: 1200px) {
+  .outline {
+      grid-template-columns: repeat(2, 1fr);
   }
-  @media (max-width: 1200px) {
-    .outline {
-        grid-template-columns: repeat(2, 1fr);
-    }
+}
+
+@media (max-width: 992px) {
+  .outline {
+      grid-template-columns: repeat(1, 1fr);
   }
-  
-  @media (max-width: 992px) {
-    .outline {
-        grid-template-columns: repeat(1, 1fr);
-    }
+}
+
+.inside {
+  padding: 0 calc(var(--bs-gutter-x) * 0.5); /* p_type과 동일한 좌우 패딩 */
+  margin: 0; /* 추가 여백 제거 */
+  width: 100%; /* Grid 내부 너비는 100% */
+  box-sizing: border-box; /* 동일한 박스 모델 적용 */
+  transition: transform 0.3s ease-in-out;
+}
+
+.portfolio {
+  --aspect-ratio: 1.5;
+  position: relative;
+  box-shadow: 0 0.15rem 1.75rem #21283226;
+  transition: transform 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+  cursor: pointer;
+  border-radius: 0.5rem; /* 모서리를 둥글게 */
+  margin-bottom: 1rem;
+  display: block;
+  overflow: hidden; /* 내부 이미지가 부모 요소를 넘지 않도록 설정 */
+}
+
+.img {
+  width: 100%;
+  height: auto; /* 이미지의 비율 유지 */
+  border-radius: inherit; /* 부모와 동일한 둥근 모서리 적용 */
+  transition: transform 0.3s ease-in-out;
+}
+
+.inside:hover .portfolio {
+  transform: translateY(-5px); /* 컨테이너와 이미지 모두 위로 이동 */
+  transition: transform 0.3s ease-in-out; /* 부드러운 이동 효과 */
+}
+
+.bottom {
+  display: flex; /* 왼쪽과 오른쪽을 가로로 정렬 */
+  align-items: flex-start; /* 각 섹션의 상단을 맞춤 */
+  justify-content: space-between; /* 왼쪽과 오른쪽을 양 끝에 배치 */
+  box-sizing: border-box;
+}
+
+.bottom_left {
+  display: flex; /* 각 섹션 내부를 세로로 정렬 */
+  flex-direction: column; /* 이름과 뱃지, 하트와 수익률을 위-아래로 배치 */
+  align-items: flex-start; /* 왼쪽 정렬 */
+  box-sizing: border-box;
+  gap: 0.5rem; /* 각 섹션 요소 간 간격 */
+}
+
+.p_name {
+  font-size: 1rem;
+  font-weight: 500;
+  line-height: 1.2;
+  color: #363d47;
+  margin: 0;
+}
+
+.badge {
+  display: flex; /* 뱃지를 가로로 정렬 */
+  align-items: center;
+  gap: 0.25rem; /* 뱃지들 간 간격 */
+}
+
+.badge_img {
+  width: 24px; /* 뱃지 크기 */
+  height: 24px;
+  border-radius: 50%; /* 원형 */
+  object-fit: cover;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.bottom_right {
+  display: flex; /* 각 섹션 내부를 세로로 정렬 */
+  flex-direction: column;
+  align-items: flex-end; /* 오른쪽 정렬 */
+  box-sizing: border-box;
+  gap: 0.5rem; /* 각 섹션 요소 간 간격 */
+}
+
+.view{
+  font-size: 1rem;
+  font-weight: 500;
+  line-height: 1.2;
+  color: #363d47;
+  margin: 0;
+}
+.bookmark {
+  background-color: transparent; /* 배경 투명 */
+  border: none; /* 버튼 테두리 제거 */
+  font-size: 1.2rem; /* 아이콘 크기 */
+  color: #363d47;
+  cursor: pointer;
+  transition: transform 0.2s ease-in-out, color 0.2s ease-in-out; /* 클릭 효과 */
+}
+
+.bookmark:hover {
+  transform: scale(1.2); /* 호버 시 확대 */
+  color: #ff4757; /* 빨간색 강조 */
+}
+
+.bookmark.active {
+  color: #ff4757; /* 빨간색 하트 */
+}
+  /* 하트 애니메이션 컨테이너 */
+.hearts-container {
+  position: relative; /* 부모 요소 기준 위치 */
+  margin-right: 77%;
+  width: 0;
+  height: 0;
+  overflow: visible; /* 하트가 컨테이너를 넘어서도록 설정 */
+}
+
+/* 하트 애니메이션 */
+.flying-heart {
+  position: absolute;
+  bottom: 0; /* 시작 위치 */
+  font-size: 1.2rem;
+  color: #ff4757; /* 빨간색 하트 */
+  animation: fly-up 1s ease-out forwards; /* 애니메이션 설정 */
+}
+
+/* 하트가 위로 날아가는 애니메이션 */
+@keyframes fly-up {
+  0% {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0) scale(1);
   }
-  
-  .inside {
-    padding: 0 calc(var(--bs-gutter-x) * 0.5); /* p_type과 동일한 좌우 패딩 */
-    margin: 0; /* 추가 여백 제거 */
-    width: 100%; /* Grid 내부 너비는 100% */
-    box-sizing: border-box; /* 동일한 박스 모델 적용 */
-    transition: transform 0.3s ease-in-out;
+  100% {
+      opacity: 0;
+      transform: translateX(-50%) translateY(-100px) scale(1.5);
   }
-  
-  .portfolio {
-    --aspect-ratio: 1.5;
-    position: relative;
-    box-shadow: 0 0.15rem 1.75rem #21283226;
-    transition: transform 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
-    cursor: pointer;
-    border-radius: 0.5rem; /* 모서리를 둥글게 */
-    margin-bottom: 1rem;
-    display: block;
-    overflow: hidden; /* 내부 이미지가 부모 요소를 넘지 않도록 설정 */
-  }
-  
-  .img {
-    width: 100%;
-    height: auto; /* 이미지의 비율 유지 */
-    border-radius: inherit; /* 부모와 동일한 둥근 모서리 적용 */
-    transition: transform 0.3s ease-in-out;
-  }
-  
-  .inside:hover .portfolio {
-    transform: translateY(-5px); /* 컨테이너와 이미지 모두 위로 이동 */
-    transition: transform 0.3s ease-in-out; /* 부드러운 이동 효과 */
-  }
-  
-  .bottom {
-    display: flex; /* 왼쪽과 오른쪽을 가로로 정렬 */
-    align-items: flex-start; /* 각 섹션의 상단을 맞춤 */
-    justify-content: space-between; /* 왼쪽과 오른쪽을 양 끝에 배치 */
-    box-sizing: border-box;
-  }
-  
-  .bottom_left,
-  .bottom_right {
-    display: flex; /* 각 섹션 내부를 세로로 정렬 */
-    flex-direction: column; /* 이름과 뱃지, 하트와 수익률을 위-아래로 배치 */
-    align-items: flex-start; /* 왼쪽 정렬 */
-    box-sizing: border-box;
-    gap: 0.5rem; /* 각 섹션 요소 간 간격 */
-  }
-  
-  .p_name {
-    font-size: 1rem;
-    font-weight: 500;
-    line-height: 1.2;
-    color: #363d47;
-    margin: 0;
-  }
-  
-  .badge {
-    display: flex; /* 뱃지를 가로로 정렬 */
-    align-items: center;
-    gap: 0.25rem; /* 뱃지들 간 간격 */
-  }
-  
-  .badge_img {
-    width: 24px; /* 뱃지 크기 */
-    height: 24px;
-    border-radius: 50%; /* 원형 */
-    object-fit: cover;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  }
-  
-  .bottom_right {
-    align-items: flex-end; /* 오른쪽 정렬 */
-  }
-  
-  .p_likes {
-    background-color: transparent; /* 배경 투명 */
-    border: none; /* 버튼 테두리 제거 */
-    font-size: 1.2rem; /* 아이콘 크기 */
-    color: #363d47;
-    cursor: pointer;
-    transition: transform 0.2s ease-in-out, color 0.2s ease-in-out; /* 클릭 효과 */
-  }
-  
-  .p_likes:hover {
-    transform: scale(1.2); /* 호버 시 확대 */
-    color: #ff4757; /* 빨간색 강조 */
-  }
-  
-  .likes_count {
-    font-size: 0.75rem; /* 수익률 크기 */
-    color: #363d47;
-    line-height: 1; /* 높이를 최소화 */
-    margin: 0;
-    text-align: right; /* 텍스트를 오른쪽 정렬 */
-  }
+}
+
+.rate {
+  font-size: 0.75rem; /* 수익률 크기 */
+  color: #363d47;
+  line-height: 1; /* 높이를 최소화 */
+  margin: 0;
+  text-align: right; /* 텍스트를 오른쪽 정렬 */
+}
+
+/* 페이지 관리 */
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+  gap: 10px;
+}
+
+.pagination button {
+  padding: 0.5rem 1rem;
+  font-size: 0.7rem;
+  background-color: #4f74df;
+  color: #fff;
+  border: none;
+  width: 50px;
+  height: 30px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.pagination button:disabled {
+  background-color: #ddd;
+  cursor: not-allowed;
+}
+
+.pagination span {
+  font-size: 1rem;
+  color: #333;
+}

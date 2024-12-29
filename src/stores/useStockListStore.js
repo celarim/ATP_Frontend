@@ -18,7 +18,7 @@ export const useStockListStore = defineStore('stockList', {
     },
     actions: {
         async getStockListItem(id) {
-        try { // TODO: URL 바꾸기기
+        try { // TODO: URL 바꾸기
             return await axios.get(`https://aaefca20-f361-4d2c-bc81-3db58a3ae355.mock.pstmn.io/stock/item`, {params:{
             id:id,
             }}).result.slice(offset, offset+ 30);
