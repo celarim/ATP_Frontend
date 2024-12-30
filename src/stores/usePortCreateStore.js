@@ -3,8 +3,8 @@ import axios from 'axios';
 
 export const usePortCreateStore = defineStore('portcreate', {
     state: () => ({
-        name:"",
-        username:"",
+        name:"", //포트폴리오 이름
+        username:"", //사용자 이름
         stocks: [], // 포트폴리오에 입력한 주식 데이터
         isLoading: false, // API 요청 상태플래그
         error: null,
@@ -12,14 +12,18 @@ export const usePortCreateStore = defineStore('portcreate', {
 
     actions: {
         //포트폴리오 생성
-        async createPortfolio(payload) {
+        async setPortfolio(payload) {
             try {
-                const response = await axios.post('/api/createPortfolio', payload);
-                console.log('Portfolio created:', response.data);
-                this.portfolios.push(response.data); // 새로 생성된 포트폴리오 저장
+                this.isLoading = true; // 로딩 상태 시작
+                const response = await axios.post("/sample/createdportfolioList.json", payload);
+                // this.portfolios.push(response.data);
+                this.name = payload.name;
+                this.stocks = payload.stocks;
             } catch (error) {
                 console.error('Error creating portfolio:', error);
                 throw error;
+            } finally {
+                this.isLoading = false; // 로딩 상태 종료
             }
         },
         
