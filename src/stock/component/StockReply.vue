@@ -17,6 +17,9 @@ const isUpdate = ref(false);
 //여기 reply.isLiked 추가해야함.
 const isLiked = ref(props.reply?.isLiked || false);
 const likesCount = ref(props.reply?.likesCount || 0);
+const heartsContainer = ref(null); // 하트 컨테이너 참조
+
+
 const changeUpdate = () => {
     isUpdate.value = !isUpdate.value;
 }
@@ -32,9 +35,17 @@ const deleteReply = async (replyId) => {
 }
 
 const likeReply = async(replyId) => {
+    //로그인 안했으면 못누른다.
+    if(userStore.userId == null ) return;
+
+    //withcredential이용으로 일단 막아둠
     //await stockReplyStore.setReplyLikes(replyId);
     isLiked.value = true;
     likesCount.value = likesCount.value+1;
+    const heart = document.createElement('div');
+        heart.textContent = '♥️'; // 하트 모양
+        heart.classList.add('flying-heart');
+        heartsContainer.value.appendChild(heart);
 }
 const dislikeReply = async (replyId) => {
     //await stockReplyStore.deleteReplyLikes(replyId);
@@ -56,6 +67,7 @@ const dislikeReply = async (replyId) => {
                     <button class="like-btn ">
                         <font-awesome-icon class="like-icon" v-if="isLiked" @click="dislikeReply(reply.replyId)" :icon="['fas', 'heart']" />
                         <font-awesome-icon class="like-icon" v-else @click="likeReply(reply.replyId)"  :icon="['far', 'heart']" />
+                        <div class="hearts-container" ref="heartsContainer"></div>
                     </button>
                     <p style="margin-left: 5px;">{{ likesCount }}</p>
                 </div>
