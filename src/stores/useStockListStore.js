@@ -5,16 +5,17 @@ export const useStockListStore = defineStore("stockList", {
   state: () => ({
     offset: 0, // 페이지네이션 오프셋
     sortType: "ascending", // 정렬 기능 대비용 필드, 현재는 Mock 상태
-    stockList: [
-      { id: 1, name: "Tesla", code: "TSLA", market: "nasdaq", price: "26000", likes: 40, doILikeThis: false },
-      { id: 2, name: "Apple Inc.", code: "AAPL", market: "nasdaq", price: "46000", likes: 16, doILikeThis: false },
-      { id: 3, name: "Microsoft", code: "MSFT", market: "nasdaq", price: "43200", likes: 4, doILikeThis: false },
-    ],
+    stockList: [{ id: 1, name: "Apple Inc.", code: "AAPL", market: "nasdaq", price: "46000", likes: 16, doILikeThis: false }],
+    totalLength: 3,
   }),
+  persist: {
+    storage: sessionStorage,
+  },
   getters: {
-    stockListResult: (state) => state.stockList.slice(state.offset, state.offset + 30),
+    stockListResult: (state) => state.stockList,
     stockListOffset: (state) => state.offset,
     stockListLikes: (state) => state.stockList.map((value) => value.doILikeThis),
+    stockListTotalLength: (state) => state.totalLength,
   },
   actions: {
     async getStockListItem(id) {
@@ -40,16 +41,18 @@ export const useStockListStore = defineStore("stockList", {
           params: {
             text: text,
             offset: offset,
+            requestLength: false,
           },
         });
         // console.log(response.data);
         // TODO: 조건에 따른 정렬 기능 추가?(아래는 좋아요 개수 많은 순서대로 정렬이 필요한 경우)
         // response.data.result.sort((a, b) => b.likes - a.likes);
-        this.stockList = response.data;
+        this.stockList = response.data.result;
+        this.offset = offset;
+        this.totalLength = response.data.result.length;
         return response.data.result.slice(this.offset, this.offset + 30);
       } catch (e) {
         // console.log(e.message);
-        this.stockList = [];
         return this.stockList;
       }
     },

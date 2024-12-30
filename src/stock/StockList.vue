@@ -1,7 +1,8 @@
 <script setup>
-import { defineProps, ref, reactive } from "vue";
+import { defineProps, ref, reactive, onMounted, computed, onBeforeMount } from "vue";
 import stockListItem from "./component/StockListItem.vue";
 import { useStockListStore } from "../stores/useStockListStore.js";
+import { useLoadingStore } from "../stores/useLoadingStore.js";
 // import LineChart from '../components/LineChart.vue';
 
 // TODO: API에 offset을 파라미터로 넘겨 페이지네이션을 구현할 것
@@ -14,46 +15,23 @@ const props = defineProps({
 const offset = ref(!props.offset ? 0 : props.offset);
 const text = ref(!props.text ? "" : props.text);
 
-let canMoveRight = ref(false);
-let canMoveLeft = ref(false);
-
 const stockListStore = useStockListStore();
-let itemlist = reactive([]);
-// 볼 때 목록 불러오는 API
-// TODO: stocklistStore.getStockList 액션으로 교체하여 페이지네이션 구현을 여기로 이전
-const response = async () => {
-  const response = await stockListStore.getStockList(offset, text);
-  for (let item of response) {
-    itemlist.push(JSON.stringify(item));
-  }
-  canMoveRight.value = itemlist.length >= 30; // 일단 30개가 되면 활성화는 시킴
-  canMoveLeft.value = offset.value > 0;
-};
-response();
-// 이전 30개로 페이지네이션
-// TODO: 이 코드를 수정하여 작동하게 만들 것
-const movePrev = async () => {
-  itemlist = reactive([]);
-  const response = await stockListStore.getPrevList();
-  for (let item of response) {
-    itemlist.push(JSON.stringify(item));
-  }
-  console.log(itemlist);
-  canMoveRight.value = itemlist.length >= 30; // 일단 30개가 되면 활성화는 시킴
-  canMoveLeft.value = offset.value > 0;
-};
-// 다음 30개로 페이지네이션
-// TODO: 이 코드를 수정하여 작동하게 만들 것
-const moveNext = async () => {
-  itemlist = reactive([]);
-  const response = await stockListStore.getNextList();
-  for (let item of response) {
-    itemlist.push(JSON.stringify(item));
-  }
-  console.log(itemlist);
-  canMoveRight.value = itemlist.length >= 30; // 일단 30개가 되면 활성화는 시킴
-  canMoveLeft.value = offset.value > 0;
-};
+const loadingStore = useLoadingStore();
+let itemlist = reactive(stockListStore.stockListResult);
+let totalLength = ref(stockListStore.stockListOffset);
+
+let canMoveLeft = computed(() => {
+  return ref(offset > 1);
+});
+let canMoveRight = computed(() => {
+  return ref(offset < Math.floor(totalLength / 30));
+});
+
+onMounted(async () => {
+  loadingStore.startLoading();
+  await stockListStore.getStockList(offset, text);
+  loadingStore.stopLoading();
+});
 </script>
 
 <template>
@@ -63,11 +41,9 @@ const moveNext = async () => {
       <stockListItem :information="item" />
     </div>
     <span class="pagination">
-      <div v-if="canMoveRight" @click="movePrev">&lt;</div>
-      <div v-else class="inverted-color">&lt;</div>
+      <button :disabled="canMoveRight">&lt;</button>
       <div>&nbsp; {{ Math.floor(offset / 30) }} &nbsp;</div>
-      <div v-if="canMoveLeft" @click="moveNext">&gt;</div>
-      <div v-else class="inverted-color">&gt;</div>
+      <button :disabled="canMoveLeft">&gt;</button>
     </span>
   </div>
 </template>
