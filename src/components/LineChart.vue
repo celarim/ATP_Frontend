@@ -1,4 +1,8 @@
 <script setup>
+/**
+ *  Alert: 작동하지 않습니다! 이 모듈로 라우트하지 마세요!
+ *  이 모듈은 차트 관련 연습용으로 별도 분리한 모듈입니다.
+ */
 // import { defineProps } from 'vue';
 // mport { usePortfolioDetailsStore } from '../stores/usePortfolioDetailsStore.js';
 // let portfolioStore = usePortfolioDetailsStore();
@@ -7,20 +11,20 @@
 </script>
 <script>
 // Alert: 작동하지 않습니다! 이 모듈로 라우트하지 마세요!
-import { Line } from 'vue-chartjs'
-import { Chart as ChartJS, Title, Tooltip, Legend, LineElement, PointElement, CategoryScale, LinearScale } from 'chart.js'
+import { Line } from "vue-chartjs";
+import { Chart as ChartJS, Title, Tooltip, Legend, LineElement, PointElement, CategoryScale, LinearScale } from "chart.js";
 
 // import axios from 'axios';
 
 ChartJS.register(Title, Tooltip, Legend, LineElement, PointElement, CategoryScale, LinearScale);
 
 export default {
-  name: 'LineChart',
+  name: "LineChart",
   components: { Line },
   computed: {
     chartData() {
       return {
-        labels: ['January', 'February', 'March'],
+        labels: ["January", "February", "March"],
         datasets: [{ data: [40, 20, 12], tension: 0, pointStyle: false }],
       }; /* mutable chart data */
     },
@@ -29,8 +33,8 @@ export default {
         responsive: true,
       };
     },
-  }
-}
+  },
+};
 </script>
 <template>
   <LineChart :data="chartData" :options="chartOptions" />
