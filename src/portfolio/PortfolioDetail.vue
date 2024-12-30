@@ -211,7 +211,7 @@ onMounted(async () => {
             <!-- 포트폴리오 종목 카드 -->
             <div class="card shadow mb-4">
               <div class="card-header py-3">
-                <PortfolioStock :portfolioQuantity="portfolioDetailStore.portfolioItem.portfolio_quantity" />
+                <PortfolioStock :portfolioStocks="portfolioDetailStore.portfolioItem.portfolio_Stocks" />
               </div>
           </div>
           </div>
