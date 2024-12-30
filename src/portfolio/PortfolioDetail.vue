@@ -1,7 +1,42 @@
-
 <script setup>
+import { ref, onMounted } from 'vue';
+import PortfolioReply from './PortfolioReply.vue';
+import PortfolioStock from './PortfolioStock.vue';
+import { usePortfolioDetailStore } from '../stores/usePortfolioDetailStore';
+import { usePortfolioRepliesStore } from '../stores/usePortfolioRepliesStore';
+import { useRoute } from 'vue-router';
+
+const route = useRoute();
+const portfolioDetailStore = usePortfolioDetailStore();
+const portfolioRepliesStore = usePortfolioRepliesStore();
+
+const portfolioStocks = ref([]);
+const portfolioReplies = ref([]);
+
+onMounted(async () => {
+  try {
+    // Portfolio detail 데이터 가져오기
+    await portfolioDetailStore.getportfolioDetail(route.params.idx);
+    console.log("Portfolio Detail Loaded:", portfolioDetailStore.portfolioItem);
+
+    // Portfolio replies 데이터 가져오기
+    await portfolioRepliesStore.getPortfolioRepliesByCreatedAt(route.params.idx);
+    console.log("Portfolio Replies Loaded:", portfolioRepliesStore.portfolioReplies);
+
+    // 데이터를 vue의 상태에 반영
+    portfolioStocks.value = portfolioDetailStore.portfolioItem.portfolio_quantity || {};
+    portfolioReplies.value = portfolioRepliesStore.portfolioReplies || [];
+
+  } catch (error) {
+    console.error("Error in onMounted:", error);
+    portfolioStocks.value = {}; // 기본값 설정 (객체 형태로 초기화)
+    portfolioReplies.value = []; // 기본값 설정
+  }
+});
+
 
 </script>
+
 
 <template>
     <div id="page-top">
@@ -176,85 +211,13 @@
             <!-- 포트폴리오 종목 카드 -->
             <div class="card shadow mb-4">
               <div class="card-header py-3">
-                <h6 class="m-0 font-weight-bold text-primary">포트폴리오 종목</h6>
+                <PortfolioStock :portfolioQuantity="portfolioDetailStore.portfolioItem.portfolio_quantity" />
               </div>
-              <div class="card-body">
-                <!-- 종목 목록을 한 줄에 5개 배치 -->
-                <div class="d-flex flex-wrap justify-content-between">
-
-                  <!-- 종목 1 -->
-                  <div style="width: 48%;" class="mb-4">
-                    <div class="d-flex align-items-center">
-                      <img src="https://images.therich.io/images/logo/us/AAPL.png" alt="AAPL"
-                        style="width: 40px; height: 40px; margin-right: 10px;">
-                      <h4 class="small font-weight-bold m-0">애플</h4>
-                      <span class="ml-auto font-weight-bold">20%</span>
-                    </div>
-                    <div class="progress mt-2">
-                      <div class="progress-bar bg-danger" role="progressbar" style="width: 20%" aria-valuenow="20"
-                        aria-valuemin="0" aria-valuemax="100"></div>
-                    </div>
-                  </div>
-
-                  <!-- 종목 2 -->
-                  <div style="width: 48%;" class="mb-4">
-                    <div class="d-flex align-items-center">
-                      <img src="https://images.therich.io/images/logo/us/MSFT.png" alt="MSFT"
-                        style="width: 40px; height: 40px; margin-right: 10px;">
-                      <h4 class="small font-weight-bold m-0">마이크로소프트</h4>
-                      <span class="ml-auto font-weight-bold">40%</span>
-                    </div>
-                    <div class="progress mt-2">
-                      <div class="progress-bar bg-warning" role="progressbar" style="width: 40%" aria-valuenow="40"
-                        aria-valuemin="0" aria-valuemax="100"></div>
-                    </div>
-                  </div>
-
-                  <!-- 종목 3 -->
-                  <div style="width: 48%;" class="mb-4">
-                    <div class="d-flex align-items-center">
-                      <img src="https://images.therich.io/images/logo/us/GOOGL.png" alt="GOOGL"
-                        style="width: 40px; height: 40px; margin-right: 10px;">
-                      <h4 class="small font-weight-bold m-0">구글</h4>
-                      <span class="ml-auto font-weight-bold">60%</span>
-                    </div>
-                    <div class="progress mt-2">
-                      <div class="progress-bar bg-info" role="progressbar" style="width: 60%" aria-valuenow="60"
-                        aria-valuemin="0" aria-valuemax="100"></div>
-                    </div>
-                  </div>
-
-                  <!-- 종목 4 -->
-                  <div style="width: 48%;" class="mb-4">
-                    <div class="d-flex align-items-center">
-                      <img src="https://images.therich.io/images/logo/us/TSLA.png" alt="TSLA"
-                        style="width: 40px; height: 40px; margin-right: 10px;">
-                      <h4 class="small font-weight-bold m-0">테슬라</h4>
-                      <span class="ml-auto font-weight-bold">80%</span>
-                    </div>
-                    <div class="progress mt-2">
-                      <div class="progress-bar bg-primary" role="progressbar" style="width: 80%" aria-valuenow="80"
-                        aria-valuemin="0" aria-valuemax="100"></div>
-                    </div>
-                  </div>
-
-                  <!-- 종목 5 -->
-                  <div style="width: 48%;" class="mb-4">
-                    <div class="d-flex align-items-center">
-                      <img src="https://images.therich.io/images/logo/us/AMZN.png" alt="AMZN"
-                        style="width: 40px; height: 40px; margin-right: 10px;">
-                      <h4 class="small font-weight-bold m-0">아마존</h4>
-                      <span class="ml-auto font-weight-bold">100%</span>
-                    </div>
-                    <div class="progress mt-2">
-                      <div class="progress-bar bg-success" role="progressbar" style="width: 100%" aria-valuenow="100"
-                        aria-valuemin="0" aria-valuemax="100"></div>
-                    </div>
-                  </div>
-
-                </div>
-              </div>
-            </div>
+          </div>
+          </div>
+          </div>
+          </div>
+          </div>
           </div>
 
 
@@ -328,67 +291,9 @@
           </div>
           <div class="row">
             <!-- Approach -->
-            <div class="card-row card shadow mb-4 ">
-              <div class="card-header py-3">
-                <h6 class="m-0 font-weight-bold text-primary">홍길동</h6>
-                <p class="replycard-info">작성일자: 2024-12-12<br>
-                  최종 수정일자: 2024-12-12</p>
-                <form method="POST">
-                  <input type="button" name="reply_likes" value="♥️" class="reply_likes" />
-                </form>
+            <PortfolioReply :replies="portfolioReplies" />
+            
 
-              </div>
-              <div class="card-body">
-                <p>SB Admin 2 makes extensive use of Bootstrap 4 utility classes in order to reduce
-                  CSS bloat and poor page performance. Custom CSS classes are used to create
-                  custom components and custom utility classes.</p>
-                <p class="mb-0">Before working with this theme, you should become familiar with the
-                  Bootstrap framework, especially the utility classes.</p>
-              </div>
-            </div>
-
-            <div class="card-row card shadow mb-4">
-              <div class="card-header py-3">
-                <h6 class="m-0 font-weight-bold text-primary">홍길동</h6>
-                <p class="replycard-info">작성일자: 2024-12-12<br>
-                  최종 수정일자: 2024-12-12</p>
-                <form method="POST">
-                  <input type="button" name="reply_likes" value="♥️" class="reply_likes" />
-                </form>
-
-              </div>
-              <div class="card-body">
-                <p>SB Admin 2 makes extensive use of Bootstrap 4 utility classes in order to reduce
-                  CSS bloat and poor page performance. Custom CSS classes are used to create
-                  custom components and custom utility classes.</p>
-                <p class="mb-0">Before working with this theme, you should become familiar with the
-                  Bootstrap framework, especially the utility classes.</p>
-              </div>
-            </div>
-
-            <div class="card-row card shadow mb-4">
-              <div class="card-header py-3">
-                <h6 class="m-0 font-weight-bold text-primary">홍길동</h6>
-                <p class="replycard-info">작성일자: 2024-12-12<br>
-                  최종 수정일자: 2024-12-12</p>
-                <form method="POST">
-                  <input type="button" name="reply_likes" value="♥️" class="reply_likes" />
-                </form>
-
-              </div>
-              <div class="card-body">
-                <p>SB Admin 2 makes extensive use of Bootstrap 4 utility classes in order to reduce
-                  CSS bloat and poor page performance. Custom CSS classes are used to create
-                  custom components and custom utility classes.</p>
-                <p class="mb-0">Before working with this theme, you should become familiar with the
-                  Bootstrap framework, especially the utility classes.</p>
-              </div>
-            </div>
-          </div>
-        </div>
-
-      </div>
-    </div>
 
   </div>
   <!-- /.container-fluid -->

@@ -1,9 +1,10 @@
 <script setup>
 import { defineProps } from 'vue';
 
+// Props로 portfolio_quantity 데이터를 받습니다.
 const props = defineProps({
-  replies: {
-    type: Array,
+  portfolioQuantity: {
+    type: Object,
     required: true,
   },
 });
@@ -11,15 +12,14 @@ const props = defineProps({
 
 <template>
   <div>
-    <div v-for="reply in replies" :key="reply.id" class="card-row card shadow mb-4">
-      <div class="card-header py-3">
-        <h6 class="m-0 font-weight-bold text-primary">{{ reply.userName }}</h6>
-        <p>작성일자: {{ reply.createdAt }} <br />최종 수정일자: {{ reply.updatedAt }}</p>
-      </div>
-      <div class="card-body">
-        <p>{{ reply.content }}</p>
-      </div>
-    </div>
+    <h6 class="m-0 font-weight-bold text-primary">Portfolio Stocks</h6>
+    <ul class="list-group mt-3">
+      <!-- portfolioQuantity 객체를 순회하며 각 종목과 수량을 표시 -->
+      <li v-for="(quantity, stock) in portfolioQuantity" :key="stock" class="list-group-item d-flex justify-content-between align-items-center">
+        <span>{{ stock }}</span>
+        <span class="badge bg-primary rounded-pill">{{ quantity }}</span>
+      </li>
+    </ul>
   </div>
 </template>
 <style scoped>
