@@ -4,12 +4,13 @@ import StockReply from './component/StockReply.vue';
 import { useStockDetailStore } from '../stores/useStockDetailStore';
 import { useStockReplyStore } from '../stores/useStockReplyStore';
 import { useRoute } from 'vue-router';
+import { useUserStore } from '../stores/useUserStore';
 
 const route = useRoute();
 const offset = ref(0);
 const stockReplyStore = useStockReplyStore();
 const stockDetailStore = useStockDetailStore();
-
+const userStore = useUserStore();
 const chartContainer = ref(null);
 
 const draw = async () => {
@@ -33,11 +34,18 @@ const draw = async () => {
 
     document.body.appendChild(script);
 }
+
+
 onMounted(async () => {
     await stockDetailStore.getStockDetail();
     await stockReplyStore.getStockReplyListByCreatedAt(route.params.idx, offset.value);
     await draw();
 });
+
+const setReply = async () => {
+    const content = document.querySelector('[contenteditable="true"]').innerHTML;
+    //const result = await stockReplyStore.setStockReply(route.params.idx, content);
+}
 
 </script>
 
@@ -102,6 +110,24 @@ onMounted(async () => {
 
 
                 <!-- Reply -->
+                <div v-if="userStore.userId != null" class="_editor-container-expanded_ylcfx_37">
+                    <div class="_placeholder_s9avi_1">댓글을 입력하세요</div>
+                    <div role="textbox" aria-multiline="true" class="_editor-expanded_ylcfx_13 border"
+                      spellcheck="true" data-slate-editor="true" data-slate-node="value" contenteditable="true"
+                      zindex="-1" style="background-color: white; padding: 1rem; position: relative; white-space: pre-wrap; overflow-wrap: break-word;
+                      min-height: 7rem;">
+                      <div data-slate-node="element"><span data-slate-node="text"><span data-slate-leaf="true"><span
+                              data-slate-zero-width="n" data-slate-length="0"><br></span></span></span></div>
+                    </div>
+                    <div class="container-btn _toolbar_k0g7a_47 ">
+                      <div class="_toolbar-primary_k0g7a_51">
+                        <div class="_actions_k0g7a_78"><button
+                            class="comment-btn _button_8fv5d_1 _button-fill_8fv5d_15 _submit_k0g7a_84 bt"
+                            type="button"><span class=" _submit-text_k0g7a_122" @click="setReply" style="color: white;">Comment</span></button></div>
+
+                      </div>
+                    </div>
+                </div>
                 <div class="reply-section-title">댓글</div>
                 <div class="reply">
                     <div class="row">
@@ -133,4 +159,17 @@ onMounted(async () => {
         margin-top: 20vh;
     }
 }
+
+.container-btn {
+      display: flex;
+      flex-direction: row-reverse;
+      justify-content: space-between;
+    }
+
+.comment-btn {
+      margin-left: auto;
+      border-radius: 8px;
+      background-color: #4f74df;
+      border: 1px solid #bbb;
+    }
 </style>
