@@ -6,6 +6,9 @@ import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
 import { usePortCreateStore } from '../stores/usePortCreateStore';
 import { useLoadingStore } from '../stores/useLoadingStore';
 import { useStockListStore } from '../stores/useStockListStore';
+import { toast } from "vue3-toastify";
+import "vue3-toastify/dist/index.css";
+
 const stockList = useStockListStore();
 const loadingStore = useLoadingStore();
 const portCreate = usePortCreateStore();
@@ -160,6 +163,7 @@ const stockDelete = (index) => {
     }
 };
 
+// TODO : sum 함수 고치기
 //입력한 주식 값 계산
 const sum = computed(() => {
     return stockData.value.stocks.reduce(
@@ -167,35 +171,74 @@ const sum = computed(() => {
     );
 });
 
-//새로 삽입한 주식 데이터 전송
-const createBtn = async () => {
+// TODO : 입력태그 비어있으면 오류메시지 띄우기
+// 새로운 주식 데이터 저장
+const createBtn = async (index) => {
     loadingStore.startLoading();
     try {
         await portCreate.setPortfolio({
             name: portfolioData.value.name,
-            username: userInfo.value.username,
-            stocks: stockData.value.stocks,
+            stocks: stockData.value.stocks
         });
-        console.log('Portfolio created successfully');
+        toast("Save!", {
+        "theme": "auto",
+        "type": "success",
+        "position": "bottom-center",
+        "autoClose": 1000,
+        "hideProgressBar": true
+        })
+        console.log(`Stock at index ${index} created successfully`);
     } catch (error) {
-        console.error('Error creating portfolio:', error);
+        toast("error", {
+        "theme": "auto",
+        "type": "error",
+        "position": "bottom-center",
+        "autoClose": 1000,
+        "hideProgressBar": true
+        })
+        console.error(`Error creating stock at index ${index}:`, error);
+    }finally {
+        loadingStore.stopLoading();
+    }
+};
+
+// 기존 주식 데이터 업데이트
+const stockUpdate = async (index) => {
+    loadingStore.startLoading();
+    try {
+        const updatedStock = portfolioData.value.stocks[index];
+        await portCreate.updateStock({
+            name: portfolioData.name,
+            stocks: updatedStock
+            // name: updatedStock.name,
+            // quantity: updatedStock.quantity,
+            // price: updatedStock.price,
+            // date: updatedStock.date,
+        });
+        console.log(`Stock at index ${index} updated successfully`);
+    } catch (error) {
+        console.error(`Error updating stock at index ${index}:`, error);
     } finally {
         loadingStore.stopLoading();
     }
 };
 
-//수정한 포트폴리오 전송
+// Update 버튼 클릭 시 동작
 const updateBtn = async () => {
     loadingStore.startLoading();
     try {
-        await portCreate.updatePortfolio({
-            name: portfolioData.value.name,
-            username: userInfo.value.username,
-            stocks: portfolioData.value.stocks,
-        });
-        console.log('Portfolio updated successfully');
+        // 1. 새로 추가한 주식 데이터 처리
+        for (let i = 0; i < stockData.value.stocks.length; i++) {
+            await createBtn(i); // 인덱스 기반으로 새 주식 데이터 생성
+        }
+
+        // 2. 기존 포트폴리오 데이터 업데이트
+        for (let i = 0; i < portfolioData.value.stocks.length; i++) {
+            await stockUpdate(i); // 인덱스 기반으로 기존 데이터 업데이트
+        }
+        console.log('Update operation completed successfully');
     } catch (error) {
-        console.error('Error updating portfolio:', error);
+        console.error('Error during update operation:', error);
     } finally {
         loadingStore.stopLoading();
     }
@@ -233,7 +276,6 @@ function generateUniqueColor() {
 const checkedStocks = computed(() => {
     return portfolioData.value.stocks.filter(stock => stock.isCh);
 });
-
 const chartData = computed(() => {
     // 1. 체크된 항목만 필터링 (포트폴리오와 추가 항목 병합)
     const allCheckedStocks = [...portfolioData.value.stocks, ...stockData.value.stocks].filter(stock => stock.isCh);
@@ -271,8 +313,6 @@ const chartData = computed(() => {
         ],
     };
 });
-
-
 //차트 설정
 const chartOptions = ref({
     responsive: true,
@@ -388,8 +428,8 @@ const chartOptions = ref({
                 <div class="stock_sum">구매 금액 합계 : {{ sum }}</div>
                 <!--TODO : updateBtn 동작 확인(for문의 영역에 맞춰 각각 나눠서 반영이 되는지)-->
                 <div class="field-input">
-                    <button v-if="portStatus" @click="createBtn" class="add-field-button createBtn">Create</button>
-                    <button v-else @click="createBtn(), updateBtn()" class="add-field-button createBtn">Update</button>
+                    <button v-if="portStatus" @click="createBtn(addCount-1)" class="add-field-button createBtn">Create</button>
+                    <button v-else @click="updateBtn" class="add-field-button createBtn">Update</button>
                     <button @click="addBtn" class="add-field-button addBtn">+</button>
                 </div>
             </div>

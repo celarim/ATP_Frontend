@@ -43,6 +43,7 @@ const bookBtn = () => {
             <div class="bottom_left">
                 <div class="p_name">{{portfolio.name}}</div>
                 <div class="badge">
+                    <!--TODO : 포트폴리오 뱃지 데이터 가져오기-->
                     <img src="../images/badge1.webp" alt="badge1" class="badge_img">
                     <img src="../images/badge2.webp" alt="badge2" class="badge_img">
                     <img src="../images/badge3.webp" alt="badge3" class="badge_img">
