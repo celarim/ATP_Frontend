@@ -1,14 +1,15 @@
-/* 전체 페이지 레이아웃 */
-
 .page-container {
     display: flex;
     height: 100vh;
-    margin-top: 5vmax;
+    margin-top: 80px;
 }
 
-/* 왼쪽 섹션 */
 .left-section {
-    flex: 1;
+    position: fixed; /* 스크롤 시 고정 */
+    top: 80px; /* 상단 여백 */
+    left: 0;
+    width: calc(100% - 500px); /* 화면 너비에서 오른쪽 섹션의 고정 너비를 뺀 값 */
+    height: calc(100vh - 80px); /* 상단 여백 제외한 높이 */
     padding: 2rem;
     background-color: #f9f9f9;
     border-right: 1px solid #ddd;
@@ -16,122 +17,180 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    box-sizing: border-box; /* 패딩 포함 크기 계산 */
 }
 
 /* 오른쪽 섹션 */
 .right-section {
-    flex: 1;
-    padding: 2rem;
+    position: fixed; /* 고정 위치 */
+    top: 80px; /* 상단 여백 */
+    right: 0; /* 화면 오른쪽에 고정 */
+    width: 500px; /* 고정된 너비 */
+    height: calc(100vh - 80px); /* 상단 여백 제외한 높이 */
+    padding: 1rem;
     display: flex;
     flex-direction: column;
-    gap: 1rem;
+    gap: 0.5rem;
+    box-sizing: border-box; /* 패딩 포함 크기 계산 */
+    background-color: white; /* 필요 시 배경색 지정 */
+    border-left: 1px solid #ddd; /* 왼쪽 경계선 추가 */
+    margin-right: 20px;
+}
+
+.donut {
+    size: 90%;
+}
+.editable-text {
+    cursor: pointer;
+    padding: 0.5rem;
+    border: 1px solid transparent;
+    transition: border-color 0.2s;
+}
+.editable-text:hover {
+    border-color: #ccc;
+}
+
+.editable-input {
+    padding: 0.5rem;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    width: 100%;
 }
 
 /* Field Labels */
 .field-labels {
     display: flex;
-    gap: 0.5rem;
+    gap: 0.2rem; /* 동일한 간격 */
     align-items: center; /* 수직 중앙 정렬 */
     justify-content: space-between; /* 라벨 간 간격 균일 */
+    height: 40px; /* 입력 필드와 동일한 높이 */
 }
 
 /* Input Rows */
 #field-wrapper {
     display: flex;
     flex-direction: column;
-    gap: 0.8rem; /* 각 필드 사이 간격 */
+    gap: 0.5rem; /* field-labels와 동일한 간격 */
 }
 
 /* Field Row Container */
 .field-container {
     display: flex;
-    gap: 0.5rem;
-    align-items: center; /* 각 요소 수직 정렬 */
+    gap: 0.5rem; /* 내부 요소 간 간격 (field-labels와 동일하게) */
+    align-items: center;
+    justify-content: space-around;
     width: 100%; /* 고정 너비 유지 */
     height: 40px; /* 라벨과 입력 필드의 높이를 동일하게 설정 */
 }
 
 /* Field Labels and Inputs Alignment */
-.field-label, .field-input {
+.field-label{
     display: flex;
     align-items: center;
     justify-content: center;
     height: 100%; /* 입력 필드와 같은 높이 */
 }
 
-/* Stock Name Input */
-.stock-name-label {
-    flex: 2;
+.stock_check{
+    width: 20px;
+}
+.stock_name{
+    width: 200px;
     text-align: center;
 }
-.stock-name-input {
-    flex: 2;
+.stock_quantity, .stock_price {
+    width: 50px;
+    text-align: center;
+}
+.stock_date {
+    width: 120px;
+    text-align: center;
+}
+.stock_count {
+    width: 50px ;
+    text-align: center;
+}
+.stock_delete{
+    width: 20px;
+    text-align: center;
+}
+.stock_count_p {
+    width: 50px ;
+    text-align: center;
+    padding-top: 1rem;
+}
+.stock_sum{
+    text-align: right;
+    margin-right: 20px;
 }
 
-/* Quantity Input */
-.quantity-label {
-    flex: 0.5;
-    text-align: center;
-}
-.quantity-input {
-    width: 40px;
-    /* flex: 0.5; */
-    text-align: center;
-}
-
-/* Date Input */
-.date-label {
-    flex: 1;
-    text-align: center;
-}
-.date-input {
-    flex: 0.5;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
 /* Input Fields */
-.field-input input {
+input {
     width: 100%;
-    padding: 0.5rem;
-    font-size: 1rem;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    box-sizing: border-box;
-    height: 40px;
 }
 
-/* Date Picker Hidden */
-.hidden-date-picker {
+/* Stock List Container */
+.stock_list {
+    position: relative;
+    display: inline-block;
+}
+
+.stock_list > ul{
     position: absolute;
-    left: -9999px;
+    list-style: none;
+    padding-left: 0px;
+    width: 100%;
+    max-height: 200px;
+    border: 1px solid black;
+    overflow: scroll; overflow-x: hidden;
+    background-color: white;
+    z-index: 100;
+    text-align: left;
 }
 
-/* Calendar Icon Button */
-.date-button {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 40px;
-    height: 40px;
-    background-color: #f9f9f9;
-    border: 1px solid #ccc;
-    border-radius: 4px;
+.stock_list > ul > li{
+    padding: 0px 5px;
     cursor: pointer;
 }
 
-.date-button img {
-    width: 20px;
-    height: 20px;
+
+li:hover {
+    background-color: #f0f0f0;
 }
 
-/* Add Button */
+.xmark{
+    position: absolute;
+    top: 50%;
+    cursor: pointer;
+    z-index: 1;
+    width: 12px;
+    transition: 0.3x ease;
+    transform: translateY(-40%);
+}
+.xmarkhide{
+    visibility: hidden; right: 8px; opacity: 0;
+}
+.xmarkshow{
+    visibility: show; right: 10px; opacity: 1;
+}
+
+
+.field-input {
+    display: flex; /* Flex 컨테이너 설정 */
+    justify-content: space-between; /* 양 끝으로 버튼 배치 */
+    align-items: center; /* 세로 중앙 정렬 */
+    gap: 1rem; /* 버튼 사이 간격 */
+    width: 100%; /* 전체 너비 */
+    margin-bottom: 1.5rem;
+}
+
 .add-field-button {
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 40px;
-    height: 40px;
+    width: 30px;
+    height: 30px;
     font-size: 1.2rem;
     font-weight: bold;
     color: #fff;
@@ -143,4 +202,16 @@
 
 .add-field-button:hover {
     background-color: #375a7f;
+}
+
+.addBtn {
+    margin-left: auto; /* 오른쪽 정렬 */
+    margin-right: 10px;
+}
+
+.createBtn {
+    margin-right: auto; /* 중앙 정렬 */
+    flex-grow: 1; /* 버튼이 가운데로 이동하도록 여백 확장 */
+    text-align: center; /* 버튼 텍스트 중앙 정렬 */
+    margin-left: 30px;
 }

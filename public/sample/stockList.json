@@ -1,0 +1,290 @@
+[
+    {
+        "symbol": "AAPL",
+        "name": "Apple Inc.",
+        "k_name": "애플",
+        "industry_code": "451010"
+    },
+    {
+        "symbol": "MSFT",
+        "name": "Microsoft Corporation",
+        "k_name": "마이크로소프트",
+        "industry_code": "451030"
+    },
+    {
+        "symbol": "GOOGL",
+        "name": "Alphabet Inc.",
+        "k_name": "알파벳",
+        "industry_code": "451030"
+    },
+    {
+        "symbol": "AMZN",
+        "name": "Amazon.com Inc.",
+        "k_name": "아마존",
+        "industry_code": "452010"
+    },
+    {
+        "symbol": "TSLA",
+        "name": "Tesla Inc.",
+        "k_name": "테슬라",
+        "industry_code": "252010"
+    },
+    {
+        "symbol": "BRK.B",
+        "name": "Berkshire Hathaway Inc.",
+        "k_name": "버크셔 해서웨이",
+        "industry_code": "403010"
+    },
+    {
+        "symbol": "NVDA",
+        "name": "NVIDIA Corporation",
+        "k_name": "엔비디아",
+        "industry_code": "453010"
+    },
+    {
+        "symbol": "META",
+        "name": "Meta Platforms Inc.",
+        "k_name": "메타 플랫폼스",
+        "industry_code": "451030"
+    },
+    {
+        "symbol": "JNJ",
+        "name": "Johnson & Johnson",
+        "k_name": "존슨앤드존슨",
+        "industry_code": "351020"
+    },
+    {
+        "symbol": "V",
+        "name": "Visa Inc.",
+        "k_name": "비자",
+        "industry_code": "402020"
+    },
+    {
+        "symbol": "WMT",
+        "name": "Walmart Inc.",
+        "k_name": "월마트",
+        "industry_code": "453010"
+    },
+    {
+        "symbol": "PG",
+        "name": "Procter & Gamble Co.",
+        "k_name": "프록터앤드갬블",
+        "industry_code": "303020"
+    },
+    {
+        "symbol": "JPM",
+        "name": "JPMorgan Chase & Co.",
+        "k_name": "JP모건 체이스",
+        "industry_code": "402010"
+    },
+    {
+        "symbol": "UNH",
+        "name": "UnitedHealth Group Inc.",
+        "k_name": "유나이티드헬스 그룹",
+        "industry_code": "351020"
+    },
+    {
+        "symbol": "HD",
+        "name": "The Home Depot Inc.",
+        "k_name": "홈디포",
+        "industry_code": "452020"
+    },
+    {
+        "symbol": "MA",
+        "name": "Mastercard Incorporated",
+        "k_name": "마스터카드",
+        "industry_code": "402020"
+    },
+    {
+        "symbol": "PFE",
+        "name": "Pfizer Inc.",
+        "k_name": "화이자",
+        "industry_code": "352020"
+    },
+    {
+        "symbol": "KO",
+        "name": "The Coca-Cola Company",
+        "k_name": "코카콜라",
+        "industry_code": "302010"
+    },
+    {
+        "symbol": "PEP",
+        "name": "PepsiCo Inc.",
+        "k_name": "펩시코",
+        "industry_code": "302010"
+    },
+    {
+        "symbol": "CSCO",
+        "name": "Cisco Systems Inc.",
+        "k_name": "시스코 시스템즈",
+        "industry_code": "451030"
+    },
+    {
+        "symbol": "INTC",
+        "name": "Intel Corporation",
+        "k_name": "인텔",
+        "industry_code": "453010"
+    },
+    {
+        "symbol": "NFLX",
+        "name": "Netflix Inc.",
+        "k_name": "넷플릭스",
+        "industry_code": "451030"
+    },
+    {
+        "symbol": "ADBE",
+        "name": "Adobe Inc.",
+        "k_name": "어도비",
+        "industry_code": "451030"
+    },
+    {
+        "symbol": "DIS",
+        "name": "The Walt Disney Company",
+        "k_name": "월트 디즈니",
+        "industry_code": "254010"
+    },
+    {
+        "symbol": "CMCSA",
+        "name": "Comcast Corporation",
+        "k_name": "컴캐스트",
+        "industry_code": "253010"
+    },
+    {
+        "symbol": "PYPL",
+        "name": "PayPal Holdings Inc.",
+        "k_name": "페이팔",
+        "industry_code": "402020"
+    },
+    {
+        "symbol": "CRM",
+        "name": "Salesforce Inc.",
+        "k_name": "세일즈포스",
+        "industry_code": "451030"
+    },
+    {
+        "symbol": "ABT",
+        "name": "Abbott Laboratories",
+        "k_name": "애벗",
+        "industry_code": "351020"
+    },
+    {
+        "symbol": "CVX",
+        "name": "Chevron Corporation",
+        "k_name": "셰브론",
+        "industry_code": "101020"
+    },
+    {
+        "symbol": "XOM",
+        "name": "Exxon Mobil Corporation",
+        "k_name": "엑슨모빌",
+        "industry_code": "101020"
+    },
+    {
+        "symbol": "BAC",
+        "name": "Bank of America Corporation",
+        "k_name": "뱅크오브아메리카",
+        "industry_code": "402010"
+    },
+    {
+        "symbol": "MRK",
+        "name": "Merck & Co., Inc.",
+        "k_name": "머크",
+        "industry_code": "352020"
+    },
+    {
+        "symbol": "ORCL",
+        "name": "Oracle Corporation",
+        "k_name": "오라클",
+        "industry_code": "451030"
+    },
+    {
+        "symbol": "T",
+        "name": "AT&T Inc.",
+        "k_name": "AT&T",
+        "industry_code": "501010"
+    },
+    {
+        "symbol": "VZ",
+        "name": "Verizon Communications Inc.",
+        "k_name": "버라이즌",
+        "industry_code": "501010"
+    },
+    {
+        "symbol": "COST",
+        "name": "Costco Wholesale Corporation",
+        "k_name": "코스트코",
+        "industry_code": "453010"
+    },
+    {
+        "symbol": "NKE",
+        "name": "Nike Inc.",
+        "k_name": "나이키",
+        "industry_code": "252030"
+    },
+    {
+        "symbol": "MCD",
+        "name": "McDonald's Corporation",
+        "k_name": "맥도날드",
+        "industry_code": "253010"
+    },
+    {
+        "symbol": "UPS",
+        "name": "United Parcel Service Inc.",
+        "k_name": "UPS",
+        "industry_code": "203010"
+    },
+    {
+        "symbol": "MMM",
+        "name": "3M Company",
+        "k_name": "쓰리엠",
+        "industry_code": "201050"
+    },
+    {
+        "symbol": "GS",
+        "name": "The Goldman Sachs Group Inc.",
+        "k_name": "골드만삭스",
+        "industry_code": "402010"
+    },
+    {
+        "symbol": "BA",
+        "name": "The Boeing Company",
+        "k_name": "보잉",
+        "industry_code": "201010"
+    },
+    {
+        "symbol": "AXP",
+        "name": "American Express Company",
+        "k_name": "아메리칸 익스프레스",
+        "industry_code": "402020"
+    },
+    {
+        "symbol": "GE",
+        "name": "General Electric Company",
+        "k_name": "제너럴 일렉트릭",
+        "industry_code": "201040"
+    },
+    {
+        "symbol": "TMO",
+        "name": "Thermo Fisher Scientific Inc.",
+        "k_name": "써모 피셔 사이언티픽",
+        "industry_code": "351030"
+    },
+    {
+        "symbol": "MDT",
+        "name": "Medtronic plc",
+        "k_name": "메드트로닉",
+        "industry_code": "351030"
+    },
+    {
+        "symbol": "LMT",
+        "name": "Lockheed Martin Corporation",
+        "k_name": "록히드마틴",
+        "industry_code": "201010"
+    },
+    {
+        "symbol": "IBM",
+        "name": "International Business Machines Corporation",
+        "k_name": "IBM",
+        "industry_code": "451030"
+    }
+]
