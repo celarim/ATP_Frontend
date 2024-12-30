@@ -1,30 +1,34 @@
 <script setup>
-import { defineProps, ref } from 'vue';
+import { defineProps, ref } from "vue";
 const props = defineProps({
-  information: String,
+  information: String, // 종목 칸을 채우는 객체형 정보
 });
 let id = ref(0);
 let code = ref("d");
 let name = ref("d");
 let market = ref("d");
 let price = ref("d");
+let likes = ref(0);
+let doILikeThis = ref(false);
 
+// information으로부터 정보 추출해서 대입
 const response = JSON.parse(props.information);
 id.value = response.id;
 code.value = response.code;
-name.value = response.name.replace(' Common Stock', "");
+name.value = response.name.replace(" Common Stock", "");
 market.value = response.market;
 price.value = response.price;
+likes.value = response.likes;
 
 const scrollToTop = () => {
+  // 이게 있어야 라우팅 후 맨 위로 자동 스크롤 됨
   window.scrollTo(0, 0);
-}
-
+};
 </script>
 
 <template>
   <div class="stockListBox card card-row shadow" style="">
-    <div class="card-header" style="min-width:200px;max-width: 200px;">
+    <div class="card-header" style="min-width: 200px; max-width: 200px">
       <div class="listbox-item">
         <router-link :to="`/stock/${id}`" @click="scrollToTop">{{ name }}</router-link>
       </div>
@@ -36,14 +40,22 @@ const scrollToTop = () => {
       </div>
     </div>
     <!-- TODO: 그래프? -->
-    <div class="card-body bold-weight stockListBox-inner-right" style="max-width:160px;">
+    <div class="card-body bold-weight" style="max-width: 160px">
       <div class="listbox-item">
-        최근 가격:<br>
+        최근 가격:<br />
         {{ price }}
+      </div>
+      <div style="display: inline-flex; margin-left: 1rem">
+        <!-- 좋아요 수 -->
+        <div>
+          <div>❤</div>
+        </div>
+        <div class="small-info">
+          {{ likes }}
+        </div>
       </div>
     </div>
   </div>
-
 </template>
 <style scoped>
 .stockListBox {
@@ -70,7 +82,7 @@ const scrollToTop = () => {
 }
 
 .listbox-item {
-  margin: 1rem 1rem
+  margin: 1rem 1rem;
 }
 
 .small-info {
@@ -83,5 +95,5 @@ const scrollToTop = () => {
 </style>
 
 <style>
-@import '/src/common/sb-admin-2.min.css';
+@import "/src/common/sb-admin-2.min.css";
 </style>
