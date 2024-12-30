@@ -15,6 +15,7 @@ const props = defineProps({
       <div class="card-header py-3">
         <h6 class="m-0 font-weight-bold text-primary">{{ reply.userName }}</h6>
         <p>작성일자: {{ reply.createdAt }} <br />최종 수정일자: {{ reply.updatedAt }}</p>
+        <!-- Todo: 좋아요 추가 -->
       </div>
       <div class="card-body">
         <p>{{ reply.content }}</p>
