@@ -204,6 +204,7 @@ a {
     align-items: center;
     line-height: 1;
     height: 2.2rem;
+    max-width: 4.5rem;
     font-size: .75rem;
     padding: 0 1rem;
     font-weight: 600;
@@ -298,9 +299,9 @@ button:not(:disabled), [type=button]:not(:disabled), [type=reset]:not(:disabled)
     .nav-right {
         padding-top: 1.75rem;
     }
-    .navbar-marketing {
-        padding-top: 0;
-        padding-bottom: 0;
+    .navbar-marketing, .nav-right {
+        padding-top: 0!important;
+        padding-bottom: 0!important;
     }
     .navbar-marketing .navbar-nav .nav-item {
         margin-right: 1rem;
@@ -351,6 +352,14 @@ ol, ul {
     .search-nobottom {
         padding-bottom: 0 !important
     }
+}
+@media(min-width: 992px) {
+ .topbar-divider {
+    width: 0;
+    border-right: 1px solid #e3e6f0;
+    height: calc(4.375rem - 2rem);
+    margin: auto 1rem;
+  }   
 }
 
 

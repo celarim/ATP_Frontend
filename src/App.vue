@@ -1,9 +1,9 @@
 <script setup>
-import router from './router';
 import Nav from './common/Navbar.vue'
 </script>
 
 <template>
+
   <Nav></Nav>
   <router-view></router-view>
 
