@@ -1,0 +1,84 @@
+[
+    {
+        "name": "portfolio1",
+        "username": "장원영",
+        "stocks": [
+            {
+                "name": "Apple Inc.",
+                "quantity": 3,
+                "price": 5,
+                "date": "2024-12-25",
+                "isCh": true
+            },
+            {
+                "name": "Microsoft Corporation",
+                "quantity": 3,
+                "price": 5,
+                "date": "2024-12-25",
+                "isCh": true
+            },
+            {
+                "name": "Tesla Inc.",
+                "quantity": 3,
+                "price": 5,
+                "date": "2024-12-25",
+                "isCh": false
+            },
+            {
+                "name": "The Home Depot Inc.",
+                "quantity": 3,
+                "price": 5,
+                "date": "2024-12-25",
+                "isCh": true
+            },
+            {
+                "name": "Tesla Inc.",
+                "quantity": 3,
+                "price": 5,
+                "date": "2024-12-25",
+                "isCh": true
+            }
+        ]
+    },
+    {
+        "name": "portfolio2",
+        "username": "안유진",
+        "stocks": [
+            {
+                "name": "Apple Inc.",
+                "quantity": 3,
+                "price": 5,
+                "date": "2024-12-25",
+                "isCh": true
+            },
+            {
+                "name": "Microsoft Corporation",
+                "quantity": 3,
+                "price": 5,
+                "date": "2024-12-25",
+                "isCh": true
+            },
+            {
+                "name": "Tesla Inc.",
+                "quantity": 3,
+                "price": 5,
+                "date": "2024-12-25",
+                "isCh": false
+            },
+            {
+                "name": "The Home Depot Inc.",
+                "quantity": 3,
+                "price": 5,
+                "date": "2024-12-25",
+                "isCh": true
+            },
+            {
+                "name": "Tesla Inc.",
+                "quantity": 3,
+                "price": 5,
+                "date": "2024-12-25",
+                "isCh": true
+            }
+        ]
+    }
+]
