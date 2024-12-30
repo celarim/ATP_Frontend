@@ -8,15 +8,14 @@ const props = defineProps({
     }
 });
 
-const localPortfolio = reactive({ ...props.portfolio });
 const isBookmarked = ref(false); // true면 북마크
 const heartsContainer = ref(null); // 하트 컨테이너 참조
 const bookBtn = () => {
     // 상태에 따라 bookmark 값을 증가 또는 감소
     if (isBookmarked.value) {
-        localPortfolio.bookmark--;
+        props.portfolio.bookmark--;
     } else {
-        localPortfolio.bookmark++;
+        props.portfolio.bookmark++;
 
         // 하트 애니메이션 추가 (북마크가 활성화될 때만 실행)
         const heart = document.createElement('div');
@@ -53,7 +52,7 @@ const bookBtn = () => {
             <div class="bottom_right">
                 <p class="view">👀 {{ portfolio.view }}</p>
                 <button class="bookmark" :class="{ 'active': isBookmarked }"
-                @click="bookBtn">♥️ {{ localPortfolio.bookmark }}</button>
+                @click="bookBtn">♥️ {{ props.portfolio.bookmark }}</button>
                 <!-- 하트 애니메이션 컨테이너 -->
                 <div class="hearts-container" ref="heartsContainer"></div>
             </div>
