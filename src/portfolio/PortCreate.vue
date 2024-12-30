@@ -10,7 +10,6 @@ const stockList = useStockListStore();
 const loadingStore = useLoadingStore();
 const portCreate = usePortCreateStore();
 
-// TODO : 포트폴리오 번호 받아와서 여러 정보 띄울 수 있게 (동적 라우트)
 // TODO : 유저 정보 받아와서 해당 params에 접근 가능한지 검증
 
 //현재 로그인한 사용자가 장원영이라고 가정
@@ -385,7 +384,9 @@ const chartOptions = ref({
                         <button @click="stockDelete(index)" class="add-field-button"> X </button>
                     </div>
                 </div>
+                <!--FIX : 구매 금액 합계 동작 확인-->
                 <div class="stock_sum">구매 금액 합계 : {{ sum }}</div>
+                <!--TODO : updateBtn 동작 확인(for문의 영역에 맞춰 각각 나눠서 반영이 되는지)-->
                 <div class="field-input">
                     <button v-if="portStatus" @click="createBtn" class="add-field-button createBtn">Create</button>
                     <button v-else @click="createBtn(), updateBtn()" class="add-field-button createBtn">Update</button>

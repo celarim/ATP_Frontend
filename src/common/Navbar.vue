@@ -32,7 +32,7 @@ const userStore = useUserStore();
     <div class="nav-container">
       <!-- Logo -->
       <router-link to="/" class="navbar-brand text-black">
-        <img src="../images/badge1.webp" alt="Across The Pacific Logo" />
+        <img src="../images/money.png" alt="Across The Pacific Logo" />
         <span class="ms-2">Across The Pacific</span>
       </router-link>
 
