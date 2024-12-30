@@ -1,0 +1,46 @@
+.like-btn {
+    color: red;
+    border: none;
+    padding: 0;
+    background-color:aliceblue;
+}
+
+.like-icon {
+    height: 1.5rem;
+
+}
+
+.like-icon:hover {
+    color: #aa0000;
+}
+
+  /* 하트 애니메이션 컨테이너 */
+  .hearts-container {
+    position: relative; /* 부모 요소 기준 위치 */
+    margin-right: 77%;
+    width: 0;
+    height: 0;
+    overflow: visible; /* 하트가 컨테이너를 넘어서도록 설정 */
+  }
+  
+  /* 하트 애니메이션 */
+  .flying-heart {
+    position: absolute;
+    left: 0.7rem;
+    bottom: 0; /* 시작 위치 */
+    font-size: 1.2rem;
+    color: #ff4757; /* 빨간색 하트 */
+    animation: fly-up 1s ease-out forwards; /* 애니메이션 설정 */
+  }
+  
+  /* 하트가 위로 날아가는 애니메이션 */
+  @keyframes fly-up {
+    0% {
+        opacity: 1;
+        transform: translateX(-50%) translateY(0) scale(1);
+    }
+    100% {
+        opacity: 0;
+        transform: translateX(-50%) translateY(-100px) scale(1.5);
+    }
+  }
