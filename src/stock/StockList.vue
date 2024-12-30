@@ -3,7 +3,6 @@ import { defineProps, ref, reactive, onMounted, computed, onBeforeMount } from "
 import stockListItem from "./component/StockListItem.vue";
 import { useStockListStore } from "../stores/useStockListStore.js";
 import { useLoadingStore } from "../stores/useLoadingStore.js";
-// import LineChart from '../components/LineChart.vue';
 
 // TODO: API에 offset을 파라미터로 넘겨 페이지네이션을 구현할 것
 const props = defineProps({

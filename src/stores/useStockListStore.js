@@ -56,6 +56,21 @@ export const useStockListStore = defineStore("stockList", {
         return this.stockList;
       }
     },
+    async getStocks() {
+      try {
+        // TODO: 크롤링 서버 URL로 바꾸기
+        const response = await axios.get("https://aaefca20-f361-4d2c-bc81-3db58a3ae355.mock.pstmn.io/stock/list", {
+          params: {
+            text: text,
+            offset: 0,
+            requestLength: false,
+          },
+        });
+        return response.data.result;
+      } catch (e) {
+        return this.stockList;
+      }
+    },
     async getNextList() {
       // 다음 리스트로 페이지네이션을 위해 변경
       this.offset = this.offset + 30;

@@ -1,42 +1,54 @@
 <script setup>
-/**
- *  Alert: 작동하지 않습니다! 이 모듈로 라우트하지 마세요!
- *  이 모듈은 차트 관련 연습용으로 별도 분리한 모듈입니다.
- */
-// import { defineProps } from 'vue';
-// mport { usePortfolioDetailsStore } from '../stores/usePortfolioDetailsStore.js';
-// let portfolioStore = usePortfolioDetailsStore();
-// let rawdata = portfolioStore.getportfolioDetail(idx);
-// TODO: rawdata를 가공해서 종목 별로 항목과 현 가치를 계산해 labels와 datasets.data에 삽입
-</script>
-<script>
-// Alert: 작동하지 않습니다! 이 모듈로 라우트하지 마세요!
+// 경윤: 이 모듈은 아직 완벽하게 작동하지 않습니다.
 import { Line } from "vue-chartjs";
-import { Chart as ChartJS, Title, Tooltip, Legend, LineElement, PointElement, CategoryScale, LinearScale } from "chart.js";
+import { computed, ref, reactive, onMounted } from "vue";
+import axios from "axios";
 
-// import axios from 'axios';
+import { Chart as ChartJS, Title, Tooltip, Legend, PointElement, CategoryScale, LinearScale, LineElement } from "chart.js";
 
 ChartJS.register(Title, Tooltip, Legend, LineElement, PointElement, CategoryScale, LinearScale);
 
-export default {
-  name: "LineChart",
-  components: { Line },
-  computed: {
-    chartData() {
-      return {
-        labels: ["January", "February", "March"],
-        datasets: [{ data: [40, 20, 12], tension: 0, pointStyle: false }],
-      }; /* mutable chart data */
+let labelList = reactive([]);
+let dataList = reactive([]);
+
+const chartData = computed(() => {
+  return {
+    labels: ["No Data", "One Data"],
+    datasets: [
+      {
+        label: "",
+        data: [0, 1],
+        pointStyle: false,
+        tension: 0,
+        padding: 0,
+      },
+    ],
+  };
+});
+
+const chartOptions = ref({
+  responsive: true,
+  plugins: {
+    responsive: true,
+    maintainAspectRatio: false,
+    legend: {
+      display: false,
     },
-    chartOptions() {
-      return {
-        responsive: true,
-      };
+    tooltip: {
+      enabled: false,
     },
+    aspectRatio: 8,
   },
-};
+});
+
+onMounted(() => {
+  // 차트 데이터 가져오기
+  // 적용하기
+});
 </script>
 <template>
-  <LineChart :data="chartData" :options="chartOptions" />
+  <div style="position: relative; height: 50vh; width: 100vw">
+    <Line id="graphchart" :data="chartData" :options="chartOptions" />
+  </div>
 </template>
 <style scoped></style>

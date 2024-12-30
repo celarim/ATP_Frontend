@@ -1,5 +1,6 @@
 <script setup>
 import { defineProps, ref } from "vue";
+import LineChart from "../../components/LineChart.vue";
 const props = defineProps({
   information: Object, // 종목 칸을 채우는 객체형 정보
 });
@@ -39,6 +40,7 @@ const scrollToTop = () => {
       </div>
     </div>
     <!-- TODO: 그래프? -->
+    <LineChart />
     <div class="card-body bold-weight" style="max-width: 160px">
       <div class="listbox-item">
         최근 가격:<br />
