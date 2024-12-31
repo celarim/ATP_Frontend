@@ -5,7 +5,8 @@ export const useStockListStore = defineStore("stockList", {
   state: () => ({
     offset: 0, // 페이지네이션 오프셋
     sortType: "ascending", // 정렬 기능 대비용 필드, 현재는 Mock 상태
-    stockList: [{ id: 1, name: "Apple Inc.", code: "AAPL", market: "nasdaq", price: "46000", likes: 16, doILikeThis: false }],
+    stockList: [{ id: 1, name: "Apple Inc.", code: "AAPL", market: "nasdaq", price: "460000", likes: 16, doILikeThis: false },
+      { id: 2, name: "Tesla", code: "TSLA", market: "nasdaq", price: "246000", likes: 16, doILikeThis: false }],
     totalLength: 3,
   }),
   persist: {
